@@ -1,0 +1,44 @@
+﻿<UserControl x:Class="WiFiLoc_App.Menu.firstPage"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             d:DesignHeight="300" d:DesignWidth="300">
+<Grid Background="#FFF3ECEC">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="115*" MinWidth="100"/>
+            <ColumnDefinition Width="51*"/>
+            <ColumnDefinition Width="586*"/>
+        </Grid.ColumnDefinitions>
+        <!--<Button x:Name="Aggiungi_Luogo" Content="Aggiungi Luogo" HorizontalAlignment="Left" Margin="193,248,0,0" VerticalAlignment="Top" Width="155" Click="clickAggiungi" Grid.Column="2" RenderTransformOrigin="1.697,-0.182" Height="22"/>
+        <TextBox x:Name="nomeLuogo" HorizontalAlignment="Left" Height="23" Margin="45,336,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120" Grid.Column="2"/>
+        <Label Content="Luogo:" HorizontalAlignment="Left" Margin="2,350,0,0" VerticalAlignment="Top" Grid.Column="1" Height="26" Width="46"/>
+        <Button x:Name="DoveSono" Content="Dove sono" HorizontalAlignment="Left" Margin="137,221,0,0" VerticalAlignment="Top" Width="75" Click="clickDoveSono" Grid.Column="2" Height="22"/>
+        <Button Content="AppList" HorizontalAlignment="Left" Margin="210,324,0,0" VerticalAlignment="Top" Width="148" RenderTransformOrigin="0.5,0.5" Click="getAppList" Grid.Column="2" Height="22">
+            <Button.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="0.097"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </Button.RenderTransform>
+        </Button>
+        <ListBox x:Name="appList" HorizontalAlignment="Left" Height="243" Margin="81,-66,0,0" VerticalAlignment="Top" Width="318" RenderTransformOrigin="0.5,0.5" Grid.Column="2">
+            <ListBox.RenderTransform>
+                <TransformGroup>
+                    <ScaleTransform/>
+                    <SkewTransform/>
+                    <RotateTransform Angle="0.175"/>
+                    <TranslateTransform/>
+                </TransformGroup>
+            </ListBox.RenderTransform>
+            <ScrollBar Height="100"/>
+        </ListBox>-->
+
+
+
+
+    </Grid>
+</UserControl>

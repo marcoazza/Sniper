@@ -1,0 +1,15 @@
+﻿<Window x:Class="WiFiLoc_App.CustomActionWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="CustomActionWindow" Height="263.06" Width="458.955">
+    <Grid Margin="0,0,-8,4">
+        <Label Content="Riga di Comando" HorizontalAlignment="Left" Margin="13,80,0,0" VerticalAlignment="Top" Width="109"/>
+        <Label Content="Parametri (opzionale)" HorizontalAlignment="Left" Margin="10,145,0,0" VerticalAlignment="Top" Width="123"/>
+        <Button x:Name="CustomAction" Content="Scegli applicazione o file di script" HorizontalAlignment="Left" Margin="10,21,0,0" VerticalAlignment="Top" Width="208" Height="30" Click="CustomAction_Click"/>
+        <Button x:Name="OK" Content="OK" HorizontalAlignment="Left" Margin="255,197,0,0" VerticalAlignment="Top" Width="75" Click="OK_Click"/>
+        <Button x:Name="Annulla" Content="Annulla" HorizontalAlignment="Left" Margin="359,197,0,0" VerticalAlignment="Top" Width="75" Click="Annulla_Click"/>
+        <TextBox x:Name="ActionPath" HorizontalAlignment="Left" Height="23" Margin="13,111,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="405"/>
+        <TextBox x:Name="ActionParam" HorizontalAlignment="Left" Height="23" Margin="13,176,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="151"/>
+
+    </Grid>
+</Window>
