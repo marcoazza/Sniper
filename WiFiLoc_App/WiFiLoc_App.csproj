@@ -99,6 +99,9 @@
     </Compile>
     <Compile Include="Logger.cs" />
     <Compile Include="Luogo.cs" />
+    <Compile Include="Menu\menuClear.xaml.cs">
+      <DependentUpon>menuClear.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\AddLuogo.xaml.cs">
       <DependentUpon>AddLuogo.xaml</DependentUpon>
     </Compile>
@@ -106,15 +109,11 @@
       <DependentUpon>AppList.xaml</DependentUpon>
     </Compile>
     <Compile Include="ActionManager.cs" />
-    <Compile Include="Interface1.cs" />
     <Compile Include="Menu\MenuLuogo.xaml.cs">
       <DependentUpon>MenuLuogo.xaml</DependentUpon>
     </Compile>
     <Compile Include="Menu\AggiungiLuogo.xaml.cs">
       <DependentUpon>AggiungiLuogo.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Menu\menuClear.xaml.cs">
-      <DependentUpon>menuClear.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\DelLuogo.xaml.cs">
       <DependentUpon>DelLuogo.xaml</DependentUpon>
@@ -122,7 +121,6 @@
     <Compile Include="Pages\ModLuogo.xaml.cs">
       <DependentUpon>ModLuogo.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Switcher.cs" />
     <Compile Include="DBAccess.cs" />
     <Compile Include="DBconnection.cs" />
     <Compile Include="LocalAppDBDataSet.Designer.cs">
@@ -136,6 +134,10 @@
     </Compile>
     <Compile Include="WlanApi.cs" />
     <Page Include="CustomActionWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Menu\menuClear.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -165,10 +167,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Menu\AggiungiLuogo.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Menu\menuClear.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -203,7 +201,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <None Include="ClassDiagram1.cd" />
     <None Include="LocalAppDBDataSet.xsc">
       <DependentUpon>LocalAppDBDataSet.xsd</DependentUpon>
     </None>
@@ -223,9 +220,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
-  </ItemGroup>
-  <ItemGroup>
-    <Resource Include="XMLFile1.xml" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include=".NETFramework,Version=v4.5">

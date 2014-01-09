@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace WiFiLoc_App
 {
-    class DBAccess
+    public class DBAccess
     {
         public static void addNewLuogo(string nome) {
             WiFiLoc_Service.Luogo l = new WiFiLoc_Service.Luogo(nome);

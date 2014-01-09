@@ -9,7 +9,14 @@
 
     <Grid Margin="70,0,0,0">
         
-<Button x:Name="Aggiungi_Luogo" Content="Aggiungi Luogo" HorizontalAlignment="Left" Margin="249,193,0,0" VerticalAlignment="Top" Width="200" Click="clickAggiungi" RenderTransformOrigin="1.697,-0.182" Height="120" BorderBrush="#FFFBF9F9" Background="#FF0180FF"/>
+<Button x:Name="Aggiungi_Luogo" Content="Aggiungi Luogo" HorizontalAlignment="Left" Margin="249,193,0,0" VerticalAlignment="Top" Width="200" Click="clickAggiungi" RenderTransformOrigin="1.697,-0.182" Height="120" BorderBrush="#FFFBF9F9" Background="#FF0180FF">
+            <Button.OpacityMask>
+                <RadialGradientBrush>
+                    <GradientStop Color="#FFF0E3E3" Offset="0.566"/>
+                    <GradientStop Color="White" Offset="1"/>
+                </RadialGradientBrush>
+            </Button.OpacityMask>
+        </Button>
         <Label Content="Luogo:" HorizontalAlignment="Left" Margin="10,88,0,0" VerticalAlignment="Top" Height="45" Width="79" FontSize="22"/>
         <!--<Button x:Name="DoveSono" Content="Dove sono" HorizontalAlignment="Left" Margin="137,221,0,0" VerticalAlignment="Top" Width="75" Click="clickDoveSono" Grid.Column="2" Height="22"/>-->
         <!--<Button Content="AppList" HorizontalAlignment="Left" Margin="136,274,0,0" VerticalAlignment="Top" Width="148" RenderTransformOrigin="0.5,0.5" Click="getAppList" Height="22"></Button>-->

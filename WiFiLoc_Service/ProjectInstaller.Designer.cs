@@ -28,31 +28,31 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.serviceProcessInstaller1 = new System.ServiceProcess.ServiceProcessInstaller();
-            this.serviceInstaller1 = new System.ServiceProcess.ServiceInstaller();
+            this.WiFiServiceProcessInstaller = new System.ServiceProcess.ServiceProcessInstaller();
+            this.WiFiServiceInstaller = new System.ServiceProcess.ServiceInstaller();
             // 
-            // serviceProcessInstaller1
+            // WiFiServiceProcessInstaller
             // 
-            this.serviceProcessInstaller1.Account = System.ServiceProcess.ServiceAccount.LocalSystem;
-            this.serviceProcessInstaller1.Password = null;
-            this.serviceProcessInstaller1.Username = null;
+            this.WiFiServiceProcessInstaller.Account = System.ServiceProcess.ServiceAccount.LocalSystem;
+            this.WiFiServiceProcessInstaller.Password = null;
+            this.WiFiServiceProcessInstaller.Username = null;
             // 
-            // serviceInstaller1
+            // WiFiServiceInstaller
             // 
-            this.serviceInstaller1.ServiceName = "WiFiLoc_Service";
-            this.serviceInstaller1.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
+            this.WiFiServiceInstaller.ServiceName = "WiFiLoc_Service";
+            this.WiFiServiceInstaller.StartType = System.ServiceProcess.ServiceStartMode.Automatic;
             // 
             // ProjectInstaller
             // 
             this.Installers.AddRange(new System.Configuration.Install.Installer[] {
-            this.serviceProcessInstaller1,
-            this.serviceInstaller1});
+            this.WiFiServiceProcessInstaller,
+            this.WiFiServiceInstaller});
 
         }
 
         #endregion
 
-        private System.ServiceProcess.ServiceProcessInstaller serviceProcessInstaller1;
-        private System.ServiceProcess.ServiceInstaller serviceInstaller1;
+        private System.ServiceProcess.ServiceProcessInstaller WiFiServiceProcessInstaller;
+        private System.ServiceProcess.ServiceInstaller WiFiServiceInstaller;
     }
 }

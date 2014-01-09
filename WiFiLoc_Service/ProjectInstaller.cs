@@ -14,6 +14,7 @@ namespace WiFiLoc_Service
         public ProjectInstaller()
         {
             InitializeComponent();
+            this.WiFiServiceInstaller.Description = "Find your position through WiFi Access Point";
         }
     }
 }

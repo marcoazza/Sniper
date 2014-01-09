@@ -16,21 +16,13 @@ using System.Windows.Shapes;
 namespace WiFiLoc_App.Menu
 {
     /// <summary>
-    /// Logica di interazione per firstPage.xaml
+    /// Interaction logic for menuClear.xaml
     /// </summary>
-    public partial class firstPage : UserControl, ISwitchable
+    public partial class menuClear : Page
     {
-        public firstPage()
+        public menuClear()
         {
             InitializeComponent();
         }
-
-        #region ISwitchable
-        public void UtilizeState(Object state)
-        {
-            throw new NotImplementedException();
-
-        }
-        #endregion
     }
 }

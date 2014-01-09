@@ -26,10 +26,9 @@ namespace WiFiLoc_Service
             WlanClient client = new WlanClient();
             foreach (WlanClient.WlanInterface wlanIface in client.Interfaces)
             {
-                // Lists all networks with WEP security
+                wlanIface.Scan();
                 Wlan.WlanBssEntry[] bsss = wlanIface.GetNetworkBssList();
-                Wlan.WlanAvailableNetwork[] networks = wlanIface.GetAvailableNetworkList(0);
-
+                
 
                 foreach (Wlan.WlanBssEntry bssentry in bsss)
                 {
