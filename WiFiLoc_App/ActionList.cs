@@ -42,7 +42,9 @@ namespace WiFiLoc_App
                 _listAction.Remove(act);
         }
 
-
+        public ArrayList GetAll() {
+            return _listAction;
+        }
 
 
     }

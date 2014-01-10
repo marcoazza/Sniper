@@ -77,14 +77,17 @@ namespace WiFiLoc_Service
             LocalAppDBDataSet lds = new LocalAppDBDataSet();
             SqlCeDataAdapter sdaL = new SqlCeDataAdapter("SELECT * FROM Luogo", sc);
             SqlCeDataAdapter sdaS = new SqlCeDataAdapter("SELECT * FROM Segnale", sc);
+            SqlCeDataAdapter sdaA = new SqlCeDataAdapter("SELECT * FROM Azione", sc);
 
             LocalAppDBDataSet.LuogoRow lr = lds.Luogo.NewLuogoRow();
-
+            //command to generate basic queries (INSERT,UPDATE,DELETE)
             SqlCeCommandBuilder builderL = new SqlCeCommandBuilder(sdaL);
             SqlCeCommandBuilder builderS = new SqlCeCommandBuilder(sdaS);
+            SqlCeCommandBuilder builderA = new SqlCeCommandBuilder(sdaA);
 
             sdaL.Fill(lds, "Luogo");
             sdaS.Fill(lds, "Segnale");
+            sdaA.Fill(lds, "Azione");
 
             foreach (DataRow dr in lds.Luogo.Rows)
             {
@@ -102,6 +105,14 @@ namespace WiFiLoc_Service
                     Network n =new Network();
                     n.setNetwork(scr.mac,(int)scr.potenza);
                     possibile.netwlist.Hash.Add(n.Mac, n);
+                }
+                foreach (DataRow cr in dr.GetChildRows(lds.Relations["FK_Luogo_Azione"]))
+                {
+
+                    LocalAppDBDataSet.AzioneRow acr = (LocalAppDBDataSet.AzioneRow)cr;
+                    
+                    ActionList.Action a = new ActionList.Action(acr.azione);
+                    possibile.actionsList.AddAction(a);
                 }
 
                 luoghi.Add(possibile);
@@ -123,13 +134,17 @@ namespace WiFiLoc_Service
             LocalAppDBDataSet lds = new LocalAppDBDataSet();
             SqlCeDataAdapter sdaL = new SqlCeDataAdapter("SELECT id,luogo,timestat FROM Luogo", sc);
             SqlCeDataAdapter sdaS = new SqlCeDataAdapter("SELECT * FROM Segnale", sc);
+            SqlCeDataAdapter sdaA = new SqlCeDataAdapter("SELECT * FROM Azione", sc);
             LocalAppDBDataSet.LuogoRow lr = lds.Luogo.NewLuogoRow();
+            //command to generate basic queries (INSERT,UPDATE,DELETE)
             SqlCeCommandBuilder builderL = new SqlCeCommandBuilder(sdaL);
             SqlCeCommandBuilder builderS = new SqlCeCommandBuilder(sdaS);
+            SqlCeCommandBuilder builderA = new SqlCeCommandBuilder(sdaA);
             SqlCeTransaction st = sc.BeginTransaction();
 
             sdaL.Fill(lds, "Luogo");
             sdaS.Fill(lds, "Segnale");
+            sdaA.Fill(lds, "Azione");
 
             try
             {
@@ -148,6 +163,7 @@ namespace WiFiLoc_Service
 
                 sdr.Close();
 
+                //add networks to table Segnale
                 foreach (DictionaryEntry de in netwlist.Hash)
                 {
                     Network n = new Network();
@@ -168,12 +184,24 @@ namespace WiFiLoc_Service
 
                 }
 
+                //add actions to table Azione
+                foreach(ActionList.Action a in ActionsList.GetAll()){
+                    if (a.Path != null || a.Path != "") {
+                        LocalAppDBDataSet.AzioneRow ar = lds.Azione.NewAzioneRow();
+                        ar.id_l = id;
+                        ar.azione = a.Path;
+                        lds.Azione.Rows.Add(ar);
+                    }
+                }
+
                 try
                 {
                     b = sdaS.Update(lds, "Segnale");
+                    b = sdaA.Update(lds, "Azione");
                     //commit changes from dataset to database
                     lds.Luogo.AcceptChanges();
                     lds.Segnale.AcceptChanges();
+                    lds.Azione.AcceptChanges();
                     st.Commit();
 
                 }
@@ -203,19 +231,23 @@ namespace WiFiLoc_Service
             LocalAppDBDataSet lds = new LocalAppDBDataSet();
             SqlCeDataAdapter sdaL = new SqlCeDataAdapter("SELECT * FROM Luogo", sc);
             SqlCeDataAdapter sdaS = new SqlCeDataAdapter("SELECT * FROM Segnale", sc);
+            SqlCeDataAdapter sdaA = new SqlCeDataAdapter("SELECT * FROM Azione", sc);
             LocalAppDBDataSet.LuogoRow lr = lds.Luogo.NewLuogoRow();
             SqlCeCommandBuilder builderL = new SqlCeCommandBuilder(sdaL);
             SqlCeCommandBuilder builderS = new SqlCeCommandBuilder(sdaS);
+            SqlCeCommandBuilder builderA = new SqlCeCommandBuilder(sdaA);
 
             sdaL.Fill(lds, "Luogo");
             sdaS.Fill(lds, "Segnale");
-            
+            sdaA.Fill(lds, "Azione");
+
             foreach (DataRow dr in lds.Luogo.Rows)
             {
 
                 LocalAppDBDataSet.LuogoRow ldr = (LocalAppDBDataSet.LuogoRow)dr;
                 if(ldr.luogo == luogo){
                
+                // mark as removed signals
                 foreach (DataRow cr in dr.GetChildRows(lds.Relations["FK_Luogo_Segnale"]))
                 {
 
@@ -224,6 +256,17 @@ namespace WiFiLoc_Service
                         cr.Delete();
                     }
                 
+                }
+                // mark as removed actions
+                foreach (DataRow currentRow in dr.GetChildRows(lds.Relations["FK_Luogo_Azione"]))
+                {
+
+                    LocalAppDBDataSet.AzioneRow acr = (LocalAppDBDataSet.AzioneRow)currentRow;
+                    if (acr.id_l == ldr.id)
+                    {
+                        currentRow.Delete();
+                    }
+
                 }
                 //segno come cancellate la rispettiva riga di Luogo
                 dr.Delete();
@@ -235,9 +278,12 @@ namespace WiFiLoc_Service
             //attenzione all'ordine con cui eseguo i comandi!, prima Segnale poi Luogo
             //altrimenti incasino il DB x i vincoli tra le chiavi
             int c = sdaS.Update(lds, "Segnale");
+            c = sdaA.Update(lds, "Azione");
             int b = sdaL.Update(lds, "Luogo");
+            
             lds.Luogo.AcceptChanges();
             lds.Segnale.AcceptChanges();
+            lds.Azione.AcceptChanges();
 
             sc.Close();
             return;

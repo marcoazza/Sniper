@@ -2280,31 +2280,25 @@ namespace WiFiLoc_App.LocalAppDBDataSetTableAdapters {
             this._adapter.DeleteCommand = new global::System.Data.SqlServerCe.SqlCeCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
             this._adapter.DeleteCommand.CommandText = "DELETE FROM [Azione] WHERE (([id_l] = @Original_id_l) AND ([azione] = @Original_a" +
-                "zione) AND ([params] = @Original_params))";
+                "zione))";
             this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Original_id_l", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "id_l", global::System.Data.DataRowVersion.Original, null));
             this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Original_azione", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "azione", global::System.Data.DataRowVersion.Original, null));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Original_params", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "params", global::System.Data.DataRowVersion.Original, null));
             this._adapter.InsertCommand = new global::System.Data.SqlServerCe.SqlCeCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
-            this._adapter.InsertCommand.CommandText = "INSERT INTO [Azione] ([id_l], [azione], [params]) VALUES (@id_l, @azione, @params" +
-                ")";
+            this._adapter.InsertCommand.CommandText = "INSERT INTO [Azione] ([id_l], [azione]) VALUES (@id_l, @azione)";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@id_l", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "id_l", global::System.Data.DataRowVersion.Current, null));
             this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@azione", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "azione", global::System.Data.DataRowVersion.Current, null));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@params", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "params", global::System.Data.DataRowVersion.Current, null));
             this._adapter.UpdateCommand = new global::System.Data.SqlServerCe.SqlCeCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = "UPDATE [Azione] SET [id_l] = @id_l, [azione] = @azione, [params] = @params WHERE " +
-                "(([id_l] = @Original_id_l) AND ([azione] = @Original_azione) AND ([params] = @Or" +
-                "iginal_params))";
+            this._adapter.UpdateCommand.CommandText = "UPDATE [Azione] SET [id_l] = @id_l, [azione] = @azione WHERE (([id_l] = @Original" +
+                "_id_l) AND ([azione] = @Original_azione))";
             this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@id_l", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "id_l", global::System.Data.DataRowVersion.Current, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@azione", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "azione", global::System.Data.DataRowVersion.Current, null));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@params", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "params", global::System.Data.DataRowVersion.Current, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Original_id_l", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "id_l", global::System.Data.DataRowVersion.Original, null));
             this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Original_azione", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "azione", global::System.Data.DataRowVersion.Original, null));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Original_params", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "params", global::System.Data.DataRowVersion.Original, null));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2320,7 +2314,7 @@ namespace WiFiLoc_App.LocalAppDBDataSetTableAdapters {
             this._commandCollection = new global::System.Data.SqlServerCe.SqlCeCommand[1];
             this._commandCollection[0] = new global::System.Data.SqlServerCe.SqlCeCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT id_l, azione FROM Azione";
+            this._commandCollection[0].CommandText = "SELECT [id_l], [azione] FROM [Azione]";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
         }
         
@@ -2381,19 +2375,13 @@ namespace WiFiLoc_App.LocalAppDBDataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(int Original_id_l, string Original_azione, string Original_params) {
+        public virtual int Delete(int Original_id_l, string Original_azione) {
             this.Adapter.DeleteCommand.Parameters[0].Value = ((int)(Original_id_l));
             if ((Original_azione == null)) {
                 throw new global::System.ArgumentNullException("Original_azione");
             }
             else {
                 this.Adapter.DeleteCommand.Parameters[1].Value = ((string)(Original_azione));
-            }
-            if ((Original_params == null)) {
-                throw new global::System.ArgumentNullException("Original_params");
-            }
-            else {
-                this.Adapter.DeleteCommand.Parameters[2].Value = ((string)(Original_params));
             }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
             if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -2415,19 +2403,13 @@ namespace WiFiLoc_App.LocalAppDBDataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(int id_l, string azione, string _params) {
+        public virtual int Insert(int id_l, string azione) {
             this.Adapter.InsertCommand.Parameters[0].Value = ((int)(id_l));
             if ((azione == null)) {
                 throw new global::System.ArgumentNullException("azione");
             }
             else {
                 this.Adapter.InsertCommand.Parameters[1].Value = ((string)(azione));
-            }
-            if ((_params == null)) {
-                throw new global::System.ArgumentNullException("_params");
-            }
-            else {
-                this.Adapter.InsertCommand.Parameters[2].Value = ((string)(_params));
             }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -2449,7 +2431,7 @@ namespace WiFiLoc_App.LocalAppDBDataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(int id_l, string azione, string _params, int Original_id_l, string Original_azione, string Original_params) {
+        public virtual int Update(int id_l, string azione, int Original_id_l, string Original_azione) {
             this.Adapter.UpdateCommand.Parameters[0].Value = ((int)(id_l));
             if ((azione == null)) {
                 throw new global::System.ArgumentNullException("azione");
@@ -2457,24 +2439,12 @@ namespace WiFiLoc_App.LocalAppDBDataSetTableAdapters {
             else {
                 this.Adapter.UpdateCommand.Parameters[1].Value = ((string)(azione));
             }
-            if ((_params == null)) {
-                throw new global::System.ArgumentNullException("_params");
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[2].Value = ((string)(_params));
-            }
-            this.Adapter.UpdateCommand.Parameters[3].Value = ((int)(Original_id_l));
+            this.Adapter.UpdateCommand.Parameters[2].Value = ((int)(Original_id_l));
             if ((Original_azione == null)) {
                 throw new global::System.ArgumentNullException("Original_azione");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[4].Value = ((string)(Original_azione));
-            }
-            if ((Original_params == null)) {
-                throw new global::System.ArgumentNullException("Original_params");
-            }
-            else {
-                this.Adapter.UpdateCommand.Parameters[5].Value = ((string)(Original_params));
+                this.Adapter.UpdateCommand.Parameters[3].Value = ((string)(Original_azione));
             }
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
             if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
@@ -2496,8 +2466,8 @@ namespace WiFiLoc_App.LocalAppDBDataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(string _params, int Original_id_l, string Original_azione, string Original_params) {
-            return this.Update(Original_id_l, Original_azione, _params, Original_id_l, Original_azione, Original_params);
+        public virtual int Update(int Original_id_l, string Original_azione) {
+            return this.Update(Original_id_l, Original_azione, Original_id_l, Original_azione);
         }
     }
     
