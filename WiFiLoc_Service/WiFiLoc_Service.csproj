@@ -84,6 +84,7 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LocalAppDBDataSet.xsd</DependentUpon>
     </Compile>
+    <Compile Include="Locator.cs" />
     <Compile Include="Luogo.cs" />
     <Compile Include="Network.cs" />
     <Compile Include="NetworkList.cs" />

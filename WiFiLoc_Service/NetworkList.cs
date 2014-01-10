@@ -8,7 +8,7 @@ using NativeWifi;
 
 namespace WiFiLoc_Service
 {
-    class NetworkList
+    public class NetworkList
     {
         Hashtable _hash = new Hashtable();
         /// <summary>

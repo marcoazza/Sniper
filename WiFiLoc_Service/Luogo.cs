@@ -15,11 +15,12 @@ using System.Data.SqlServerCe;
 
 namespace WiFiLoc_Service
 {
-    class Luogo
+    public class Luogo
     {
         string _nomeLuogo;
         int _id;
         NetworkList netwlist;
+        const int LOC_ATTEMPS = 5;
 
         public Luogo()
         {
@@ -29,18 +30,27 @@ namespace WiFiLoc_Service
 
         public Luogo(string luogo){
             netwlist = new NetworkList();
-            netwlist.acquireNetworkList();
+            saveNextList();
             _nomeLuogo = luogo;
 
         }
 
-        public void saveNextList() { 
+        public bool saveNextList() { 
             netwlist = new NetworkList();
-            netwlist.acquireNetworkList();
+            for (int i = 0; i < LOC_ATTEMPS; i++) {
+                netwlist.acquireNetworkList();
+                if (netwlist.Hash.Count > 0)
+                    break;
+            }
+            if (NetwList.Hash.Count == 0) {
+                return false;
+            }
+            return true;
         }
 
 
-        public string NomeLuogo {
+        public string NomeLuogo
+        {
             get{ return _nomeLuogo;
                 }
             set {

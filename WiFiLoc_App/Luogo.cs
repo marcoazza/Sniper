@@ -15,7 +15,7 @@ using System.Data.SqlServerCe;
 
 namespace WiFiLoc_Service
 {
-    class Luogo
+    public class Luogo
     {
         string _nomeLuogo;
         int _id;

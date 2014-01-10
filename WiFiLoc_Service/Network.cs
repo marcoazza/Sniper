@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WiFiLoc_Service
 {
-    class Network
+    public class Network
     {
         private string _mac;
         private int _potenza;

@@ -53,33 +53,33 @@ namespace WiFiLoc_Service
        }
 
         //convert MAC Address to String
-        static string MACToString(byte[] ba)
-        {
-            StringBuilder sb = new StringBuilder(ba.Length * 2);
-            int i = 0;
-            foreach (byte b in ba)
-            {
-                if (i < ba.Length - 1)
-                {
-                    sb.AppendFormat("{0:x2}:", b);
-                }
-                else
-                {
-                    sb.AppendFormat("{0:x2}", b);
-                }
-                i++;
-            }
-            return sb.ToString();
-        }
-        static string ConvertMACAddr(byte[] ba)
-        {
-            StringBuilder sb = new StringBuilder(ba.Length * 2);
-            foreach (byte b in ba)
-            {
-                sb.AppendFormat("{0:x2}", b);
-            }
-            return sb.ToString();
-        }
+        //static string MACToString(byte[] ba)
+        //{
+        //    StringBuilder sb = new StringBuilder(ba.Length * 2);
+        //    int i = 0;
+        //    foreach (byte b in ba)
+        //    {
+        //        if (i < ba.Length - 1)
+        //        {
+        //            sb.AppendFormat("{0:x2}:", b);
+        //        }
+        //        else
+        //        {
+        //            sb.AppendFormat("{0:x2}", b);
+        //        }
+        //        i++;
+        //    }
+        //    return sb.ToString();
+        //}
+        //static string ConvertMACAddr(byte[] ba)
+        //{
+        //    StringBuilder sb = new StringBuilder(ba.Length * 2);
+        //    foreach (byte b in ba)
+        //    {
+        //        sb.AppendFormat("{0:x2}", b);
+        //    }
+        //    return sb.ToString();
+        //}
 
         protected void showInterfaces() {
 

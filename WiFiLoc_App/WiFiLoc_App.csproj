@@ -84,6 +84,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="..\WiFiLoc_Service\Locator.cs">
+      <Link>Locator.cs</Link>
+    </Compile>
     <Compile Include="..\WiFiLoc_Service\Network.cs">
       <Link>Network.cs</Link>
     </Compile>
@@ -128,7 +131,6 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>LocalAppDBDataSet.xsd</DependentUpon>
     </Compile>
-    <Compile Include="Triangolazione.cs" />
     <Compile Include="Pages\WelcomeLuogo.xaml.cs">
       <DependentUpon>WelcomeLuogo.xaml</DependentUpon>
     </Compile>

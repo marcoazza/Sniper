@@ -111,8 +111,7 @@ namespace WiFiLoc_App
         {
             ArrayList listLuoghi = new ArrayList();
             listLuoghi=WiFiLoc_Service.Luogo.getPossibiliLuoghi();
-            Triangolazione t = new Triangolazione();
-            Luogo l = t.triangolaPosizione();
+            Luogo l = Locator.locate();
             if (l != null)
             {
                 MessageBox.Show("Posizione corrente -->" + l.NomeLuogo);
@@ -124,14 +123,32 @@ namespace WiFiLoc_App
 
         private void SalvaLuogo_Click(object sender, RoutedEventArgs e)
         {
+            string error = "Impossibile salvare luogo";
+            bool err = false;
+            Luogo l=null;
             if (NomeLuogo.Text != "")
             {
-                Luogo l = new Luogo(NomeLuogo.Text);
-                if (!l.check())
+                l = new Luogo(NomeLuogo.Text);
+                if (l.NetwList.Hash.Count == 0)
                 {
-                    l.luogoToDB();
+                    err=true;
+                    error += "\nNo APs rilevati";
+                }
+  
+                if (l.check()) {
+                   err=true;
+                   error += "\nLuogo gia' presente nel DB ";
                 }
             }
+            else {
+                err=true;
+                error += "\n Il nome e' obbligatorio";
+            }
+
+            if (err)
+                MessageBox.Show(error);
+            else
+                l.luogoToDB();
         }
 
         private void RimuoviLuogo_Click(object sender, RoutedEventArgs e)
