@@ -135,7 +135,7 @@ namespace WiFiLoc_App
                     error += "\nNo APs rilevati";
                 }
   
-                if (l.check()) {
+                if (l.checkIfNameExist()) {
                    err=true;
                    error += "\nLuogo gia' presente nel DB ";
                 }

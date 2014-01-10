@@ -20,18 +20,23 @@ namespace WiFiLoc_Service
         string _nomeLuogo;
         int _id;
         NetworkList netwlist;
+        ActionList actionsList;
+
 
         public Luogo()
         {
             netwlist = new NetworkList();
+            actionsList = new ActionList();
+            Timestat = 0;
 
         }
 
         public Luogo(string luogo){
             netwlist = new NetworkList();
+            actionsList = new ActionList();
             netwlist.acquireNetworkList();
             _nomeLuogo = luogo;
-
+            Timestat = 0;
         }
 
         public void saveNextList() { 
@@ -51,12 +56,13 @@ namespace WiFiLoc_Service
         public int Id {
         get {return _id; }
         set{_id = value; }
-        
         }
+        public long Timestat { get; set; }
 
         public NetworkList NetwList {
             get { return netwlist; }
         }
+        public ActionList ActionsList { get { return actionsList; } }
 
         /// <summary>
         /// get from database the places already saved
@@ -67,7 +73,7 @@ namespace WiFiLoc_Service
             ArrayList luoghi= new ArrayList();
             SqlCeConnection sc = DBconnection.getDBConnection();
             sc.Open();
-            //SqlConnection scS = DBconnection.getDBConnection();
+
             LocalAppDBDataSet lds = new LocalAppDBDataSet();
             SqlCeDataAdapter sdaL = new SqlCeDataAdapter("SELECT * FROM Luogo", sc);
             SqlCeDataAdapter sdaS = new SqlCeDataAdapter("SELECT * FROM Segnale", sc);
@@ -77,34 +83,16 @@ namespace WiFiLoc_Service
             SqlCeCommandBuilder builderL = new SqlCeCommandBuilder(sdaL);
             SqlCeCommandBuilder builderS = new SqlCeCommandBuilder(sdaS);
 
-            //builderL.GetDeleteCommand();
-            //builderL.GetInsertCommand();
-            //builderL.GetUpdateCommand();
-
             sdaL.Fill(lds, "Luogo");
             sdaS.Fill(lds, "Segnale");
 
-
-
-            //SqlCeTransaction st = sc.BeginTransaction();
-            //builderL.GetDeleteCommand().Transaction = st;
-            //builderL.GetInsertCommand().Transaction = st;
-            //builderL.GetUpdateCommand().Transaction = st;
-            //builderS.GetDeleteCommand().Transaction = st;
-            //builderS.GetInsertCommand().Transaction = st;
-            //builderS.GetUpdateCommand().Transaction = st;
-
-
-
-            //LocalAppDBDataSet.LuogoRow dr2=(LocalAppDBDataSet.LuogoRow) lds.Luogo.Rows.Find("luogo=" + this.luogo);
-            // LocalAppDBDataSet.LuogoRow[] dr3 = (LocalAppDBDataSet.LuogoRow[])lds.Luogo.Select("luogo='" + this.luogo+"'");
-            int i=0;
             foreach (DataRow dr in lds.Luogo.Rows)
             {
                 LocalAppDBDataSet.LuogoRow ldr = (LocalAppDBDataSet.LuogoRow) dr;
                 Luogo possibile = new Luogo();
                 possibile.Id = ldr.id;
                 possibile.NomeLuogo = ldr.luogo;
+                possibile.Timestat = ldr.timestat;
 
                 //associate networks to Luogo
                 foreach (DataRow cr in dr.GetChildRows(lds.Relations["FK_Luogo_Segnale"]))
@@ -131,68 +119,34 @@ namespace WiFiLoc_Service
 
             SqlCeConnection sc = DBconnection.getDBConnection();
             sc.Open();
-            //SqlConnection scS = DBconnection.getDBConnection();
+
             LocalAppDBDataSet lds = new LocalAppDBDataSet();
-            SqlCeDataAdapter sdaL = new SqlCeDataAdapter("SELECT id,luogo FROM Luogo", sc);
+            SqlCeDataAdapter sdaL = new SqlCeDataAdapter("SELECT id,luogo,timestat FROM Luogo", sc);
             SqlCeDataAdapter sdaS = new SqlCeDataAdapter("SELECT * FROM Segnale", sc);
-
             LocalAppDBDataSet.LuogoRow lr = lds.Luogo.NewLuogoRow();
-
-
             SqlCeCommandBuilder builderL = new SqlCeCommandBuilder(sdaL);
             SqlCeCommandBuilder builderS = new SqlCeCommandBuilder(sdaS);
-
-            builderL.GetDeleteCommand();
-            builderL.GetInsertCommand();
-            builderL.GetUpdateCommand();
-
-
-            builderS.GetDeleteCommand();
-            builderS.GetInsertCommand();
-            builderS.GetUpdateCommand();
-
+            SqlCeTransaction st = sc.BeginTransaction();
 
             sdaL.Fill(lds, "Luogo");
             sdaS.Fill(lds, "Segnale");
 
-
-
-            SqlCeTransaction st = sc.BeginTransaction();
-            builderL.GetDeleteCommand().Transaction = st;
-            builderL.GetInsertCommand().Transaction = st;
-            builderL.GetUpdateCommand().Transaction = st;
-            builderS.GetDeleteCommand().Transaction = st;
-            builderS.GetInsertCommand().Transaction = st;
-            builderS.GetUpdateCommand().Transaction = st;
-
             try
             {
-
-                //LocalAppDBDataSet.LuogoRow dr2 = (LocalAppDBDataSet.LuogoRow)lds.Luogo.Rows[lds.Luogo.Count - 1];
-                //int id = dr2.id + 1;
-
-                // int id3 = Convert.ToInt32(lds.Luogo.Compute("MAX(id)", String.Empty));
-                //int id = id3 + 1;
                 lr.luogo = _nomeLuogo;
-
+                lr.timestat = Timestat ;
                 lds.Luogo.Rows.Add(lr);
-                //lds.Luogo.AcceptChanges();
+
                 int b = sdaL.Update(lds, "Luogo");
                 int id3 = Convert.ToInt32(lds.Luogo.Compute("MAX(id)", String.Empty));
                 SqlCeCommand sqlcom = new SqlCeCommand("SELECT id FROM Luogo WHERE luogo='" + this._nomeLuogo + "'", sc);
                 sqlcom.Transaction = st;
 
                 SqlCeDataReader sdr = sqlcom.ExecuteReader();
-
                 sdr.Read();
                 int id = sdr.GetInt32(0);
 
-                //sdaL.SelectCommand = sqlcom;
-                //sdaL.SelectCommand.Transaction = st;
-                //sdaL.Fill(lds, "Luogo");
                 sdr.Close();
-
-                //int id = Convert.ToInt32(lds.Luogo.Compute("MAX(id)", String.Empty));
 
                 foreach (DictionaryEntry de in netwlist.Hash)
                 {
@@ -234,9 +188,6 @@ namespace WiFiLoc_Service
                 throw e;
             }
 
-
-
-
         }
 
         /// <summary>
@@ -252,20 +203,9 @@ namespace WiFiLoc_Service
             LocalAppDBDataSet lds = new LocalAppDBDataSet();
             SqlCeDataAdapter sdaL = new SqlCeDataAdapter("SELECT * FROM Luogo", sc);
             SqlCeDataAdapter sdaS = new SqlCeDataAdapter("SELECT * FROM Segnale", sc);
-
             LocalAppDBDataSet.LuogoRow lr = lds.Luogo.NewLuogoRow();
-
             SqlCeCommandBuilder builderL = new SqlCeCommandBuilder(sdaL);
             SqlCeCommandBuilder builderS = new SqlCeCommandBuilder(sdaS);
-            
-            builderL.GetDeleteCommand();
-            builderL.GetInsertCommand();
-            builderL.GetUpdateCommand();
-
-
-            builderS.GetDeleteCommand();
-            builderS.GetInsertCommand();
-            builderS.GetUpdateCommand();
 
             sdaL.Fill(lds, "Luogo");
             sdaS.Fill(lds, "Segnale");
@@ -307,7 +247,7 @@ namespace WiFiLoc_Service
         /// check if a place is already present into database
         /// </summary>
         /// <returns> return true  if present, false otherwise </returns>
-        public bool check(){
+        public bool checkIfNameExist(){
             SqlCeConnection sc = DBconnection.getDBConnection();
             sc.Open();
             //SqlConnection scS = DBconnection.getDBConnection();

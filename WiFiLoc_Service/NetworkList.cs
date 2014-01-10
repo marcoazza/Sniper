@@ -12,7 +12,7 @@ namespace WiFiLoc_Service
     {
         Hashtable _hash = new Hashtable();
         /// <summary>
-        /// acquisique i network circostanti
+        /// acquisisce i network circostanti
         /// </summary>
         /// 
 
@@ -26,7 +26,7 @@ namespace WiFiLoc_Service
             WlanClient client = new WlanClient();
             foreach (WlanClient.WlanInterface wlanIface in client.Interfaces)
             {
-                wlanIface.Scan();
+               // wlanIface.Scan();
                 Wlan.WlanBssEntry[] bsss = wlanIface.GetNetworkBssList();
                 
 

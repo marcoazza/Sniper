@@ -93,6 +93,7 @@
     <Compile Include="..\WiFiLoc_Service\NetworkList.cs">
       <Link>NetworkList.cs</Link>
     </Compile>
+    <Compile Include="ActionList.cs" />
     <Compile Include="CustomActionWindow.xaml.cs">
       <DependentUpon>CustomActionWindow.xaml</DependentUpon>
     </Compile>

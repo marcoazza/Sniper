@@ -45,9 +45,9 @@ namespace WiFiLoc_App
                 MessageBox.Show("Nome luogo obbligatorio!");
             }
             else {
-
-                DBAccess.addNewLuogo(nome);
-              
+                WiFiLoc_Service.Luogo l = new WiFiLoc_Service.Luogo(nome);
+                l.ActionsList.SaveActions(ListaAzioniLuogo.Items);
+                l.luogoToDB();
             }
         }
 

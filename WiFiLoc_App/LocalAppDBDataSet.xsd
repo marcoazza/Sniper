@@ -48,6 +48,7 @@
             <Mappings>
               <Mapping SourceColumn="id" DataSetColumn="id" />
               <Mapping SourceColumn="luogo" DataSetColumn="luogo" />
+              <Mapping SourceColumn="timestat" DataSetColumn="timestat" />
             </Mappings>
             <Sources />
           </TableAdapter>
@@ -125,8 +126,7 @@
                 </InsertCommand>
                 <SelectCommand>
                   <DbCommand CommandType="Text" ModifiedByUser="true">
-                    <CommandText>SELECT        Azione.*
-FROM            Azione</CommandText>
+                    <CommandText>SELECT id_l, azione FROM Azione</CommandText>
                     <Parameters />
                   </DbCommand>
                 </SelectCommand>
@@ -148,7 +148,6 @@ FROM            Azione</CommandText>
             <Mappings>
               <Mapping SourceColumn="id_l" DataSetColumn="id_l" />
               <Mapping SourceColumn="azione" DataSetColumn="azione" />
-              <Mapping SourceColumn="params" DataSetColumn="params" />
             </Mappings>
             <Sources />
           </TableAdapter>
@@ -171,6 +170,7 @@ FROM            Azione</CommandText>
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
+              <xs:element name="timestat" msprop:Generator_ColumnVarNameInTable="columntimestat" msprop:Generator_ColumnPropNameInRow="timestat" msprop:Generator_ColumnPropNameInTable="timestatColumn" msprop:Generator_UserColumnName="timestat" type="xs:long" minOccurs="0" />
             </xs:sequence>
           </xs:complexType>
         </xs:element>
@@ -196,14 +196,7 @@ FROM            Azione</CommandText>
               <xs:element name="azione" msprop:Generator_ColumnVarNameInTable="columnazione" msprop:Generator_ColumnPropNameInRow="azione" msprop:Generator_ColumnPropNameInTable="azioneColumn" msprop:Generator_UserColumnName="azione">
                 <xs:simpleType>
                   <xs:restriction base="xs:string">
-                    <xs:maxLength value="256" />
-                  </xs:restriction>
-                </xs:simpleType>
-              </xs:element>
-              <xs:element name="params" msprop:Generator_ColumnVarNameInTable="columnparams" msprop:Generator_ColumnPropNameInRow="_params" msprop:Generator_ColumnPropNameInTable="paramsColumn" msprop:Generator_UserColumnName="params">
-                <xs:simpleType>
-                  <xs:restriction base="xs:string">
-                    <xs:maxLength value="100" />
+                    <xs:maxLength value="512" />
                   </xs:restriction>
                 </xs:simpleType>
               </xs:element>
@@ -229,7 +222,6 @@ FROM            Azione</CommandText>
       <xs:selector xpath=".//mstns:Azione" />
       <xs:field xpath="mstns:id_l" />
       <xs:field xpath="mstns:azione" />
-      <xs:field xpath="mstns:params" />
     </xs:unique>
   </xs:element>
   <xs:annotation>
