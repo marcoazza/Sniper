@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Threading;
+using System.Collections;
 
 namespace WiFiLoc_App
 {
@@ -46,7 +47,7 @@ namespace WiFiLoc_App
             }
             else {
                 WiFiLoc_Service.Luogo l = new WiFiLoc_Service.Luogo(nome);
-                l.ActionsList.SaveActions(ListaAzioniLuogo.Items);
+                l.ActionsList.SaveActions(ActionManager.SaveActions(ListaAzioniLuogo.Items));
                 l.luogoToDB();
             }
         }

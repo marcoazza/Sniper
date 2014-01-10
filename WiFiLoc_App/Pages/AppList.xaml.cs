@@ -45,11 +45,6 @@ namespace WiFiLoc_App
 
         }
 
-        private void GeneraListaAzioni(object sender, RoutedEventArgs e)
-        {
-            //Class1.getInstalledSoftware(this.ListaApplicaz);
-            ThreadPool.QueueUserWorkItem(ActionManager.getInstalledSoftware,this.ListaApplicaz);    
-        }
 
         public delegate void updateAppList(System.Windows.Controls.ListBox l, string s);
 
@@ -58,62 +53,20 @@ namespace WiFiLoc_App
 
         }
 
-        private void SelectedItems(object sender, RoutedEventArgs e)
-        {
-            
-            ActionManager.itemApp sel = (ActionManager.itemApp) ListaApplicaz.SelectedItem;
-            if (sel != null)
-            {
-                MessageBox.Show(sel.applicazione);
-            }
-            else {
-                MessageBox.Show("Nessuna applicazione selezionata");            
-            }
-        }
-
-        private void AggiungiApplicazione(object sender, RoutedEventArgs e)
-        {
-            // Configure open file dialog box
-            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
-            dlg.FileName = ""; // Default file name
-            dlg.DefaultExt = ".exe"; // Default program extension
-            dlg.Filter = "Application (.exe)|*.exe"; // Filter programs by extension
-
-            // Show open file dialog box
-            Nullable<bool> result = dlg.ShowDialog();
-
-            // Process open file dialog box results
-            if (result == true)
-            {
-                // Open file
-                string filename = dlg.FileName;
-                Icon ico = Icon.ExtractAssociatedIcon(filename);
-
-                Bitmap b = ico.ToBitmap();
-                string name = System.IO.Path.GetFileName(filename);
-                
-
-                object[] myArray = new object[4];
-                myArray[0] = ListaApplicaz;
-                myArray[1] = filename;
-                string rp = Environment.CurrentDirectory.ToString();
-
-                b.Save(rp + "\\images\\" + System.IO.Path.GetFileNameWithoutExtension(filename) + ".ico");
-                myArray[2] = rp + "\\images\\" + System.IO.Path.GetFileNameWithoutExtension(filename) + ".ico";
-                myArray[3] = System.IO.Path.GetFileNameWithoutExtension(filename);
-
-                ListaApplicaz.Dispatcher.BeginInvoke(new ActionManager.updateAppList(ActionManager.addItem), myArray);
-
-            }
-        }
 
         private void GetPosizione_Click(object sender, RoutedEventArgs e)
         {
             ArrayList listLuoghi = new ArrayList();
             listLuoghi=WiFiLoc_Service.Luogo.getPossibiliLuoghi();
             Luogo l = Locator.locate();
+            ListaReti.Items.Clear();
             if (l != null)
             {
+                foreach (DictionaryEntry d in l.NetwList.Hash) {
+                    Network n = (Network)d.Value;
+                    string rete = n.Mac + "     " + n.Potenza;
+                    ListaReti.Items.Add(rete);
+                }
                 MessageBox.Show("Posizione corrente -->" + l.NomeLuogo);
             }
             else {
@@ -157,6 +110,18 @@ namespace WiFiLoc_App
             {
                 Luogo.removeLuogoFromDB(NomeLuogoRimuovere.Text);
             }
+        }
+
+        private void AggiornaLuogo_Click(object sender, RoutedEventArgs e)
+        {
+            if (NomeLuogoAggiornare.Text != "")
+            {
+                Luogo.UpdatePlacePosition(NomeLuogoAggiornare.Text);
+            }
+            else {
+                MessageBox.Show("inserisci un nome per aggiornare");
+            }
+
         }
 
 

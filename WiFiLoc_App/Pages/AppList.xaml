@@ -12,27 +12,14 @@
             <RowDefinition Height="292*"/>
             <RowDefinition Height="53*"/>
         </Grid.RowDefinitions>
-        <Button Content="Carica Lista" HorizontalAlignment="Left" Margin="10,12,0,0" VerticalAlignment="Top" Width="75" Click="GeneraListaAzioni" Grid.Row="1"/>
-        <ListBox x:Name="ListaApplicaz" HorizontalAlignment="Left" Margin="0,23,0,0" Width="369" SelectionChanged="ListaApplicaz_SelectionChanged" Height="269" VerticalAlignment="Top">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <StackPanel Orientation="Vertical">
-                        <StackPanel Orientation="Horizontal">
-                            <Image Source="{Binding Path=icon}" Width="24" Height="24"></Image>
-                            <TextBlock Text="{Binding Path=name}" Height="24" FontSize="18"></TextBlock>
-                        </StackPanel>
-                    </StackPanel>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-
-        </ListBox>
-        <Button x:Name="AggiungiAzione" Content="Aggiungi Azione" HorizontalAlignment="Left" Margin="251,18,0,0" VerticalAlignment="Top" Width="118" Grid.Row="1" Click="SelectedItems"/>
-        <Button Content="Browse..." HorizontalAlignment="Left" Margin="137,15,0,0" Grid.Row="1" VerticalAlignment="Top" Width="75" Click="AggiungiApplicazione"/>
         <Button x:Name="GetPosizione" Content="Dove sono ?" HorizontalAlignment="Left" Margin="439,42,0,0" VerticalAlignment="Top" Width="170" Height="66" Click="GetPosizione_Click"/>
         <Button x:Name="SalvaLuogo" Content="Salva Luogo" HorizontalAlignment="Left" Margin="439,188,0,0" VerticalAlignment="Top" Width="150" Height="56" Click="SalvaLuogo_Click"/>
         <TextBox x:Name="NomeLuogo" HorizontalAlignment="Left" Height="23" Margin="618,205,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
         <Button x:Name="RimuoviLuogo" Content="Rimuovi Luogo" HorizontalAlignment="Left" Margin="439,291,0,0" VerticalAlignment="Top" Width="150" Height="49" Click="RimuoviLuogo_Click"/>
         <TextBox x:Name="NomeLuogoRimuovere" HorizontalAlignment="Left" Height="23" Margin="618,304,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <Button x:Name="AggiornaLuogo" Content="Aggiorna Luogo" HorizontalAlignment="Left" Margin="439,379,0,0" VerticalAlignment="Top" Width="150" Height="49" Click="AggiornaLuogo_Click"/>
+        <TextBox x:Name="NomeLuogoAggiornare" HorizontalAlignment="Left" Height="23" Margin="618,405,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
+        <ListBox x:Name="ListaReti" HorizontalAlignment="Left" Height="100" Margin="52,228,0,0" VerticalAlignment="Top" Width="260"/>
 
 
     </Grid>

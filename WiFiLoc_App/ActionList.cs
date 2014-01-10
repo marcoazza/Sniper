@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Controls;
+
 
 namespace WiFiLoc_App
 {
@@ -25,12 +25,8 @@ namespace WiFiLoc_App
             _listAction = new ArrayList();
         }
 
-        public void SaveActions(ItemCollection ic) {
-            
-            foreach (ActionManager.itemApp i in ic) {
-                _listAction.Add(new Action(i.applicazione));
-            }
-            
+        public void SaveActions(ArrayList apps) {
+            _listAction = apps;
         }
 
         public void AddAction(Action act){

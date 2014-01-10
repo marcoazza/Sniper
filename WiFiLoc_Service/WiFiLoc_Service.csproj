@@ -67,11 +67,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\WiFiLoc_App\DBAccess.cs">
-      <Link>DBAccess.cs</Link>
-    </Compile>
-    <Compile Include="..\WiFiLoc_App\DBconnection.cs">
-      <Link>DBconnection.cs</Link>
+    <Compile Include="..\WiFiLoc_App\ActionList.cs">
+      <Link>ActionList.cs</Link>
     </Compile>
     <Compile Include="..\WiFiLoc_App\Interop.cs">
       <Link>Interop.cs</Link>
@@ -79,10 +76,16 @@
     <Compile Include="..\WiFiLoc_App\WlanApi.cs">
       <Link>WlanApi.cs</Link>
     </Compile>
+    <Compile Include="DBAccess.cs" />
+    <Compile Include="DBconnection.cs" />
+    <Compile Include="LocalAppDBDataSet.cs">
+      <DependentUpon>LocalAppDBDataSet.xsd</DependentUpon>
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="LocalAppDBDataSet.Designer.cs">
+      <DependentUpon>LocalAppDBDataSet.xsd</DependentUpon>
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>LocalAppDBDataSet.xsd</DependentUpon>
     </Compile>
     <Compile Include="Locator.cs" />
     <Compile Include="Luogo.cs" />

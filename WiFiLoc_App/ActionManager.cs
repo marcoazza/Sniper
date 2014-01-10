@@ -11,6 +11,7 @@ using System.Management;
 using System.Drawing;
 using System.Windows.Media.Imaging;
 using System.Windows.Interop;
+using System.Collections;
 
 
 
@@ -114,5 +115,19 @@ namespace WiFiLoc_App
 
 
 
+        /// <summary>
+        /// extract Actions from ListBox Control
+        /// </summary>
+        /// <param name="itemCollection"> list where action will extracted </param>
+        /// <returns> Array containing Actions <returns>
+        public static ArrayList SaveActions(System.Windows.Controls.ItemCollection itemCollection)
+        {
+            ArrayList apps = new ArrayList();
+            foreach (ActionManager.itemApp i in itemCollection)
+            {
+               apps.Add(new ActionList.Action(i.applicazione) );
+            }
+            return apps;
+        }
     }
 }

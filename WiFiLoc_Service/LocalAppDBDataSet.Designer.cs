@@ -270,7 +270,7 @@ namespace WiFiLoc_Service {
             this.Relations.Add(this.relationFK_Luogo_Segnale);
             this.relationFK_Luogo_Azione = new global::System.Data.DataRelation("FK_Luogo_Azione", new global::System.Data.DataColumn[] {
                         this.tableLuogo.idColumn}, new global::System.Data.DataColumn[] {
-                        this.tableAzione.id_luogoColumn}, false);
+                        this.tableAzione.id_lColumn}, false);
             this.Relations.Add(this.relationFK_Luogo_Azione);
         }
         
@@ -367,6 +367,8 @@ namespace WiFiLoc_Service {
             
             private global::System.Data.DataColumn columnluogo;
             
+            private global::System.Data.DataColumn columntimestat;
+            
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public LuogoDataTable() {
@@ -418,6 +420,14 @@ namespace WiFiLoc_Service {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public global::System.Data.DataColumn timestatColumn {
+                get {
+                    return this.columntimestat;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             [global::System.ComponentModel.Browsable(false)]
             public int Count {
                 get {
@@ -453,11 +463,12 @@ namespace WiFiLoc_Service {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public LuogoRow AddLuogoRow(string luogo) {
+            public LuogoRow AddLuogoRow(string luogo, long timestat) {
                 LuogoRow rowLuogoRow = ((LuogoRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
-                        luogo};
+                        luogo,
+                        timestat};
                 rowLuogoRow.ItemArray = columnValuesArray;
                 this.Rows.Add(rowLuogoRow);
                 return rowLuogoRow;
@@ -489,6 +500,7 @@ namespace WiFiLoc_Service {
             internal void InitVars() {
                 this.columnid = base.Columns["id"];
                 this.columnluogo = base.Columns["luogo"];
+                this.columntimestat = base.Columns["timestat"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -498,6 +510,8 @@ namespace WiFiLoc_Service {
                 base.Columns.Add(this.columnid);
                 this.columnluogo = new global::System.Data.DataColumn("luogo", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnluogo);
+                this.columntimestat = new global::System.Data.DataColumn("timestat", typeof(long), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columntimestat);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
                                 this.columnluogo}, false));
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint2", new global::System.Data.DataColumn[] {
@@ -937,11 +951,9 @@ namespace WiFiLoc_Service {
         [global::System.Xml.Serialization.XmlSchemaProviderAttribute("GetTypedTableSchema")]
         public partial class AzioneDataTable : global::System.Data.TypedTableBase<AzioneRow> {
             
-            private global::System.Data.DataColumn columnid_luogo;
+            private global::System.Data.DataColumn columnid_l;
             
             private global::System.Data.DataColumn columnazione;
-            
-            private global::System.Data.DataColumn columnparams;
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
@@ -978,9 +990,9 @@ namespace WiFiLoc_Service {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn id_luogoColumn {
+            public global::System.Data.DataColumn id_lColumn {
                 get {
-                    return this.columnid_luogo;
+                    return this.columnid_l;
                 }
             }
             
@@ -989,14 +1001,6 @@ namespace WiFiLoc_Service {
             public global::System.Data.DataColumn azioneColumn {
                 get {
                     return this.columnazione;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public global::System.Data.DataColumn paramsColumn {
-                get {
-                    return this.columnparams;
                 }
             }
             
@@ -1037,12 +1041,11 @@ namespace WiFiLoc_Service {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public AzioneRow AddAzioneRow(LuogoRow parentLuogoRowByFK_Luogo_Azione, string azione, string _params) {
+            public AzioneRow AddAzioneRow(LuogoRow parentLuogoRowByFK_Luogo_Azione, string azione) {
                 AzioneRow rowAzioneRow = ((AzioneRow)(this.NewRow()));
                 object[] columnValuesArray = new object[] {
                         null,
-                        azione,
-                        _params};
+                        azione};
                 if ((parentLuogoRowByFK_Luogo_Azione != null)) {
                     columnValuesArray[0] = parentLuogoRowByFK_Luogo_Azione[0];
                 }
@@ -1053,11 +1056,10 @@ namespace WiFiLoc_Service {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public AzioneRow FindBy_paramsazioneid_luogo(string _params, string azione, int id_luogo) {
+            public AzioneRow FindByid_lazione(int id_l, string azione) {
                 return ((AzioneRow)(this.Rows.Find(new object[] {
-                            _params,
-                            azione,
-                            id_luogo})));
+                            id_l,
+                            azione})));
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1077,32 +1079,23 @@ namespace WiFiLoc_Service {
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             internal void InitVars() {
-                this.columnid_luogo = base.Columns["id_luogo"];
+                this.columnid_l = base.Columns["id_l"];
                 this.columnazione = base.Columns["azione"];
-                this.columnparams = base.Columns["params"];
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             private void InitClass() {
-                this.columnid_luogo = new global::System.Data.DataColumn("id_luogo", typeof(int), null, global::System.Data.MappingType.Element);
-                base.Columns.Add(this.columnid_luogo);
+                this.columnid_l = new global::System.Data.DataColumn("id_l", typeof(int), null, global::System.Data.MappingType.Element);
+                base.Columns.Add(this.columnid_l);
                 this.columnazione = new global::System.Data.DataColumn("azione", typeof(string), null, global::System.Data.MappingType.Element);
                 base.Columns.Add(this.columnazione);
-                this.columnparams = new global::System.Data.DataColumn("params", typeof(string), null, global::System.Data.MappingType.Element);
-                this.columnparams.ExtendedProperties.Add("Generator_ColumnPropNameInTable", "paramsColumn");
-                this.columnparams.ExtendedProperties.Add("Generator_ColumnVarNameInTable", "columnparams");
-                this.columnparams.ExtendedProperties.Add("Generator_UserColumnName", "params");
-                base.Columns.Add(this.columnparams);
                 this.Constraints.Add(new global::System.Data.UniqueConstraint("Constraint1", new global::System.Data.DataColumn[] {
-                                this.columnparams,
-                                this.columnazione,
-                                this.columnid_luogo}, true));
-                this.columnid_luogo.AllowDBNull = false;
+                                this.columnid_l,
+                                this.columnazione}, true));
+                this.columnid_l.AllowDBNull = false;
                 this.columnazione.AllowDBNull = false;
-                this.columnazione.Caption = "id_luogo";
-                this.columnparams.AllowDBNull = false;
-                this.columnparams.Caption = "potenza";
+                this.columnazione.MaxLength = 512;
             }
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -1267,6 +1260,34 @@ namespace WiFiLoc_Service {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public long timestat {
+                get {
+                    try {
+                        return ((long)(this[this.tableLuogo.timestatColumn]));
+                    }
+                    catch (global::System.InvalidCastException e) {
+                        throw new global::System.Data.StrongTypingException("The value for column \'timestat\' in table \'Luogo\' is DBNull.", e);
+                    }
+                }
+                set {
+                    this[this.tableLuogo.timestatColumn] = value;
+                }
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public bool IstimestatNull() {
+                return this.IsNull(this.tableLuogo.timestatColumn);
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
+            public void SettimestatNull() {
+                this[this.tableLuogo.timestatColumn] = global::System.Convert.DBNull;
+            }
+            
+            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
             public SegnaleRow[] GetSegnaleRows() {
                 if ((this.Table.ChildRelations["FK_Luogo_Segnale"] == null)) {
                     return new SegnaleRow[0];
@@ -1363,12 +1384,12 @@ namespace WiFiLoc_Service {
             
             [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
             [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public int id_luogo {
+            public int id_l {
                 get {
-                    return ((int)(this[this.tableAzione.id_luogoColumn]));
+                    return ((int)(this[this.tableAzione.id_lColumn]));
                 }
                 set {
-                    this[this.tableAzione.id_luogoColumn] = value;
+                    this[this.tableAzione.id_lColumn] = value;
                 }
             }
             
@@ -1380,17 +1401,6 @@ namespace WiFiLoc_Service {
                 }
                 set {
                     this[this.tableAzione.azioneColumn] = value;
-                }
-            }
-            
-            [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-            [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
-            public string _params {
-                get {
-                    return ((string)(this[this.tableAzione.paramsColumn]));
-                }
-                set {
-                    this[this.tableAzione.paramsColumn] = value;
                 }
             }
             
@@ -1635,6 +1645,7 @@ namespace WiFiLoc_Service.LocalAppDBDataSetTableAdapters {
             tableMapping.DataSetTable = "Luogo";
             tableMapping.ColumnMappings.Add("id", "id");
             tableMapping.ColumnMappings.Add("luogo", "luogo");
+            tableMapping.ColumnMappings.Add("timestat", "timestat");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::System.Data.SqlServerCe.SqlCeCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
@@ -2263,44 +2274,38 @@ namespace WiFiLoc_Service.LocalAppDBDataSetTableAdapters {
             global::System.Data.Common.DataTableMapping tableMapping = new global::System.Data.Common.DataTableMapping();
             tableMapping.SourceTable = "Table";
             tableMapping.DataSetTable = "Azione";
-            tableMapping.ColumnMappings.Add("mac", "id_luogo");
-            tableMapping.ColumnMappings.Add("id_luogo", "azione");
-            tableMapping.ColumnMappings.Add("potenza", "params");
+            tableMapping.ColumnMappings.Add("id_l", "id_l");
+            tableMapping.ColumnMappings.Add("azione", "azione");
             this._adapter.TableMappings.Add(tableMapping);
             this._adapter.DeleteCommand = new global::System.Data.SqlServerCe.SqlCeCommand();
             this._adapter.DeleteCommand.Connection = this.Connection;
-            this._adapter.DeleteCommand.CommandText = "DELETE FROM [Segnale] WHERE (([mac] = @Original_mac) AND ([id_luogo] = @Original_" +
-                "id_luogo))";
+            this._adapter.DeleteCommand.CommandText = "DELETE FROM [Azione] WHERE (([id_l] = @Original_id_l) AND ([azione] = @Original_a" +
+                "zione))";
             this._adapter.DeleteCommand.CommandType = global::System.Data.CommandType.Text;
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Original_mac", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "mac", global::System.Data.DataRowVersion.Original, null));
-            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Original_id_luogo", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "id_luogo", global::System.Data.DataRowVersion.Original, null));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Original_id_l", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "id_l", global::System.Data.DataRowVersion.Original, null));
+            this._adapter.DeleteCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Original_azione", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "azione", global::System.Data.DataRowVersion.Original, null));
             this._adapter.InsertCommand = new global::System.Data.SqlServerCe.SqlCeCommand();
             this._adapter.InsertCommand.Connection = this.Connection;
-            this._adapter.InsertCommand.CommandText = "INSERT INTO [Azione] ([id_luogo], [azione], [params]) VALUES (@id_luogo, @azione," +
-                " @params)";
+            this._adapter.InsertCommand.CommandText = "INSERT INTO [Azione] ([id_l], [azione]) VALUES (@id_l, @azione)";
             this._adapter.InsertCommand.CommandType = global::System.Data.CommandType.Text;
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@mac", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "mac", global::System.Data.DataRowVersion.Current, null));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@id_luogo", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "id_luogo", global::System.Data.DataRowVersion.Current, null));
-            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@potenza", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "potenza", global::System.Data.DataRowVersion.Current, null));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@id_l", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "id_l", global::System.Data.DataRowVersion.Current, null));
+            this._adapter.InsertCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@azione", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "azione", global::System.Data.DataRowVersion.Current, null));
             this._adapter.UpdateCommand = new global::System.Data.SqlServerCe.SqlCeCommand();
             this._adapter.UpdateCommand.Connection = this.Connection;
-            this._adapter.UpdateCommand.CommandText = "UPDATE [Azione] SET [id_luogo] = @id_luogo, [azione] = @azione, [params] = @param" +
-                "s WHERE (([id_luogo] = @Original_id_luogo) AND ([azione] = @Original_azione) AND" +
-                " ([params] = @Original_params))";
+            this._adapter.UpdateCommand.CommandText = "UPDATE [Azione] SET [id_l] = @id_l, [azione] = @azione WHERE (([id_l] = @Original" +
+                "_id_l) AND ([azione] = @Original_azione))";
             this._adapter.UpdateCommand.CommandType = global::System.Data.CommandType.Text;
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@mac", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "mac", global::System.Data.DataRowVersion.Current, null));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@id_luogo", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "id_luogo", global::System.Data.DataRowVersion.Current, null));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@potenza", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "potenza", global::System.Data.DataRowVersion.Current, null));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Original_mac", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "mac", global::System.Data.DataRowVersion.Original, null));
-            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Original_id_luogo", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "id_luogo", global::System.Data.DataRowVersion.Original, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@id_l", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "id_l", global::System.Data.DataRowVersion.Current, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@azione", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "azione", global::System.Data.DataRowVersion.Current, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Original_id_l", global::System.Data.SqlDbType.Int, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "id_l", global::System.Data.DataRowVersion.Original, null));
+            this._adapter.UpdateCommand.Parameters.Add(new global::System.Data.SqlServerCe.SqlCeParameter("@Original_azione", global::System.Data.SqlDbType.NVarChar, 0, global::System.Data.ParameterDirection.Input, true, 0, 0, "azione", global::System.Data.DataRowVersion.Original, null));
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         private void InitConnection() {
             this._connection = new global::System.Data.SqlServerCe.SqlCeConnection();
-            this._connection.ConnectionString = "Data Source=\"C:\\Users\\Marco Azzalin\\Documents\\Visual Studio 2012\\Projects\\WiFiLoc" +
-                "_Service-WiFiLoc_Service\\WiFiLoc_App\\dbLocale.sdf\"";
+            this._connection.ConnectionString = global::WiFiLoc_Service.Properties.Settings.Default.dbLocaleConnectionString;
         }
         
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
@@ -2309,7 +2314,7 @@ namespace WiFiLoc_Service.LocalAppDBDataSetTableAdapters {
             this._commandCollection = new global::System.Data.SqlServerCe.SqlCeCommand[1];
             this._commandCollection[0] = new global::System.Data.SqlServerCe.SqlCeCommand();
             this._commandCollection[0].Connection = this.Connection;
-            this._commandCollection[0].CommandText = "SELECT [id_luogo], [azione], [params] FROM [Azione]";
+            this._commandCollection[0].CommandText = "SELECT [id_l], [azione] FROM [Azione]";
             this._commandCollection[0].CommandType = global::System.Data.CommandType.Text;
         }
         
@@ -2370,14 +2375,14 @@ namespace WiFiLoc_Service.LocalAppDBDataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Delete, true)]
-        public virtual int Delete(string Original_mac, int Original_id_luogo) {
-            if ((Original_mac == null)) {
-                throw new global::System.ArgumentNullException("Original_mac");
+        public virtual int Delete(int Original_id_l, string Original_azione) {
+            this.Adapter.DeleteCommand.Parameters[0].Value = ((int)(Original_id_l));
+            if ((Original_azione == null)) {
+                throw new global::System.ArgumentNullException("Original_azione");
             }
             else {
-                this.Adapter.DeleteCommand.Parameters[0].Value = ((string)(Original_mac));
+                this.Adapter.DeleteCommand.Parameters[1].Value = ((string)(Original_azione));
             }
-            this.Adapter.DeleteCommand.Parameters[1].Value = ((int)(Original_id_luogo));
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.DeleteCommand.Connection.State;
             if (((this.Adapter.DeleteCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -2398,15 +2403,14 @@ namespace WiFiLoc_Service.LocalAppDBDataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Insert, true)]
-        public virtual int Insert(string mac, int id_luogo, int potenza) {
-            if ((mac == null)) {
-                throw new global::System.ArgumentNullException("mac");
+        public virtual int Insert(int id_l, string azione) {
+            this.Adapter.InsertCommand.Parameters[0].Value = ((int)(id_l));
+            if ((azione == null)) {
+                throw new global::System.ArgumentNullException("azione");
             }
             else {
-                this.Adapter.InsertCommand.Parameters[0].Value = ((string)(mac));
+                this.Adapter.InsertCommand.Parameters[1].Value = ((string)(azione));
             }
-            this.Adapter.InsertCommand.Parameters[1].Value = ((int)(id_luogo));
-            this.Adapter.InsertCommand.Parameters[2].Value = ((int)(potenza));
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.InsertCommand.Connection.State;
             if (((this.Adapter.InsertCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -2427,22 +2431,21 @@ namespace WiFiLoc_Service.LocalAppDBDataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(string mac, int id_luogo, int potenza, string Original_mac, int Original_id_luogo) {
-            if ((mac == null)) {
-                throw new global::System.ArgumentNullException("mac");
+        public virtual int Update(int id_l, string azione, int Original_id_l, string Original_azione) {
+            this.Adapter.UpdateCommand.Parameters[0].Value = ((int)(id_l));
+            if ((azione == null)) {
+                throw new global::System.ArgumentNullException("azione");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[0].Value = ((string)(mac));
+                this.Adapter.UpdateCommand.Parameters[1].Value = ((string)(azione));
             }
-            this.Adapter.UpdateCommand.Parameters[1].Value = ((int)(id_luogo));
-            this.Adapter.UpdateCommand.Parameters[2].Value = ((int)(potenza));
-            if ((Original_mac == null)) {
-                throw new global::System.ArgumentNullException("Original_mac");
+            this.Adapter.UpdateCommand.Parameters[2].Value = ((int)(Original_id_l));
+            if ((Original_azione == null)) {
+                throw new global::System.ArgumentNullException("Original_azione");
             }
             else {
-                this.Adapter.UpdateCommand.Parameters[3].Value = ((string)(Original_mac));
+                this.Adapter.UpdateCommand.Parameters[3].Value = ((string)(Original_azione));
             }
-            this.Adapter.UpdateCommand.Parameters[4].Value = ((int)(Original_id_luogo));
             global::System.Data.ConnectionState previousConnectionState = this.Adapter.UpdateCommand.Connection.State;
             if (((this.Adapter.UpdateCommand.Connection.State & global::System.Data.ConnectionState.Open) 
                         != global::System.Data.ConnectionState.Open)) {
@@ -2463,8 +2466,8 @@ namespace WiFiLoc_Service.LocalAppDBDataSetTableAdapters {
         [global::System.CodeDom.Compiler.GeneratedCodeAttribute("System.Data.Design.TypedDataSetGenerator", "4.0.0.0")]
         [global::System.ComponentModel.Design.HelpKeywordAttribute("vs.data.TableAdapter")]
         [global::System.ComponentModel.DataObjectMethodAttribute(global::System.ComponentModel.DataObjectMethodType.Update, true)]
-        public virtual int Update(string mac, int potenza, string Original_mac, int Original_id_luogo) {
-            return this.Update(mac, Original_id_luogo, potenza, Original_mac, Original_id_luogo);
+        public virtual int Update(int Original_id_l, string Original_azione) {
+            return this.Update(Original_id_l, Original_azione, Original_id_l, Original_azione);
         }
     }
     

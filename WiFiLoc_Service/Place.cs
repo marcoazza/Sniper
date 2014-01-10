@@ -15,7 +15,7 @@ using System.Data.SqlServerCe;
 
 namespace WiFiLoc_Service
 {
-    public class Luogo
+    public class Place
     {
         string _nomeLuogo;
         int _id;
@@ -23,7 +23,7 @@ namespace WiFiLoc_Service
         ActionList actionsList;
 
 
-        public Luogo()
+        public Place()
         {
             netwlist = new NetworkList();
             actionsList = new ActionList();
@@ -31,7 +31,7 @@ namespace WiFiLoc_Service
 
         }
 
-        public Luogo(string luogo){
+        public Place(string luogo){
             netwlist = new NetworkList();
             actionsList = new ActionList();
             netwlist.acquireNetworkList();
@@ -92,10 +92,12 @@ namespace WiFiLoc_Service
             foreach (DataRow dr in lds.Luogo.Rows)
             {
                 LocalAppDBDataSet.LuogoRow ldr = (LocalAppDBDataSet.LuogoRow) dr;
-                Luogo possibile = new Luogo();
+                Place possibile = new Place();
                 possibile.Id = ldr.id;
                 possibile.NomeLuogo = ldr.luogo;
                 possibile.Timestat = ldr.timestat;
+                
+                
 
                 //associate networks to Luogo
                 foreach (DataRow cr in dr.GetChildRows(lds.Relations["FK_Luogo_Segnale"]))
