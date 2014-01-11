@@ -117,6 +117,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Logger.cs" />
+    <Compile Include="Menu\MainMenu.xaml.cs">
+      <DependentUpon>MainMenu.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Menu\menuClear.xaml.cs">
       <DependentUpon>menuClear.xaml</DependentUpon>
     </Compile>
@@ -127,7 +130,7 @@
       <DependentUpon>AppList.xaml</DependentUpon>
     </Compile>
     <Compile Include="ActionManager.cs" />
-    <Compile Include="Menu\MenuLuogo.xaml.cs">
+    <Compile Include="Pages\MenuLuogo.xaml.cs">
       <DependentUpon>MenuLuogo.xaml</DependentUpon>
     </Compile>
     <Compile Include="Menu\AggiungiLuogo.xaml.cs">
@@ -135,6 +138,9 @@
     </Compile>
     <Compile Include="Pages\DelLuogo.xaml.cs">
       <DependentUpon>DelLuogo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Home.xaml.cs">
+      <DependentUpon>Home.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\ModLuogo.xaml.cs">
       <DependentUpon>ModLuogo.xaml</DependentUpon>
@@ -149,6 +155,10 @@
     </Compile>
     <Compile Include="WlanApi.cs" />
     <Page Include="CustomActionWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Menu\MainMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -177,7 +187,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Menu\MenuLuogo.xaml">
+    <Page Include="Pages\MenuLuogo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -186,6 +196,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\DelLuogo.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\Home.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -262,6 +276,7 @@
     <Content Include="dbLocale.sdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="images\mirino.png" />
     <Resource Include="images\action_icon.png" />
     <Resource Include="images\homeButton.png" />
   </ItemGroup>
