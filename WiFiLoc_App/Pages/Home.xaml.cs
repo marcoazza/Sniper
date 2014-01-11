@@ -25,7 +25,7 @@ namespace WiFiLoc_App.Pages
     public partial class Home : Page
     {
         const string FAIL_LOCATE= "I'm lost.... :(";
-        string currentPlaceValue = FAIL_LOCATE;
+        string currentPlaceValue = "";
         Luogo currentPlace = null;
 
         public Home()

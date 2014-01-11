@@ -10,9 +10,9 @@
 
     <Grid>
         <Button x:Name="Home" Content="Home" HorizontalAlignment="Left" Margin="22,36,0,0" VerticalAlignment="Top" Width="196" Height="87" FontSize="30" Foreground="#FF2BA2CF" />
-        <Button Content="Places" HorizontalAlignment="Left" Margin="22,153,0,0" VerticalAlignment="Top" Width="196" Height="87" FontSize="30" Foreground="#FF2BA2CF" />
+        <Button x:Name="Places" Content="Places" HorizontalAlignment="Left" Margin="22,153,0,0" VerticalAlignment="Top" Width="196" Height="87" FontSize="30" Foreground="#FF2BA2CF" />
         <Button x:Name="AddPlace" Content="Add Place" HorizontalAlignment="Left" Margin="22,267,0,0" VerticalAlignment="Top" Width="196" Height="87" FontSize="30" Foreground="#FF2BA2CF" Click="handler" />
-        <Button Content="Stats" HorizontalAlignment="Left" Margin="22,390,0,0" VerticalAlignment="Top" Width="196" Height="87" FontSize="30" Foreground="#FF2BA2CF" />
+        <Button x:Name="Stats" Content="Stats" HorizontalAlignment="Left" Margin="22,390,0,0" VerticalAlignment="Top" Width="196" Height="87" FontSize="30" Foreground="#FF2BA2CF" />
 
     </Grid>
 </Page>

@@ -60,10 +60,10 @@ namespace WiFiLoc_App
                 case "AddPlace":
                     _mainFrame.NavigationService.Navigate(new Uri("Pages/AddLuogo.xaml", UriKind.Relative));
                     break;
-                case "DelLuogo":
-                    _mainFrame.NavigationService.Navigate(new Uri("Pages/DelLuogo.xaml", UriKind.Relative));
+                case "Places":
+                    _mainFrame.NavigationService.Navigate(new Uri("Pages/Places.xaml", UriKind.Relative));
                     break;
-                case "ModLuogo":
+                case "Stats":
                     _mainFrame.NavigationService.Navigate(new Uri("Pages/ModLuogo.xaml", UriKind.Relative));
                     break;
             

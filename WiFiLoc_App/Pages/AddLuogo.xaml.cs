@@ -14,7 +14,8 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Threading;
 using System.Collections;
-
+using NativeWifi;
+using WiFiLoc_Service;
 namespace WiFiLoc_App
 {
     /// <summary>
@@ -22,47 +23,71 @@ namespace WiFiLoc_App
     /// </summary>
     public partial class AddLuogo : Page
     {
+        private Luogo place;
+        private WlanClient.WlanInterface wInterface = null;
         public AddLuogo()
         {
             InitializeComponent();
             ThreadPool.QueueUserWorkItem(ActionManager.getInstalledSoftware, this.ListaAzioniPredefinite);
-            
+
         }
 
         private void AggiungiAzioneButton_Click(object sender, RoutedEventArgs e)
         {
             //get selected item from ListaAzioniPredefinite
-         ActionManager.itemApp selectedItem = (ActionManager.itemApp)  ListaAzioniPredefinite.SelectedItem;
-        
+            ActionManager.itemApp selectedItem = (ActionManager.itemApp)ListaAzioniPredefinite.SelectedItem;
+
             //add item to AzioniLuogo
-         ListaAzioniLuogo.Items.Add(new ActionManager.itemApp { applicazione = selectedItem.applicazione, icon = selectedItem.icon, name = selectedItem.name });
+            ListaAzioniLuogo.Items.Add(new ActionManager.itemApp { applicazione = selectedItem.applicazione, icon = selectedItem.icon, name = selectedItem.name });
         }
 
         private void AggiungiLuogoButton_Click(object sender, RoutedEventArgs e)
         {
-            String nome = (String) NomeLuogo.Text;
-            if (nome == null || nome=="")
+            String nome = (String)NomeLuogo.Text;
+            if (nome == null || nome == "")
             {
                 MessageBox.Show("Nome luogo obbligatorio!");
             }
-            else {
-                WiFiLoc_Service.Luogo l = new WiFiLoc_Service.Luogo(nome);
+            else
+            {
+                WiFiLoc_Service.Luogo l = new Luogo(nome);
                 l.ActionsList.SaveActions(ActionManager.SaveActions(ListaAzioniLuogo.Items));
-                l.luogoToDB();
+                this.place = l;
+                scanAndSave();
             }
         }
+
+        private void scanAndSave()
+        {
+            WlanClient wc = WlanClient.getInstance();
+            wInterface = wc.Interfaces[0];
+            wInterface.Scan();
+            wInterface.WlanNotification += notify;
+
+        }
+
+        public void notify(Wlan.WlanNotificationData s)
+        {
+            if (s.notificationCode == 7) {
+                wInterface.WlanNotification -= notify;
+                place.luogoToDB();
+            }
+        }
+
+
 
         private void AddCustomAction_Click(object sender, RoutedEventArgs e)
         {
             CustomActionWindow customAct = new CustomActionWindow();
             customAct.ShowDialog();
 
-            if (customAct.DialogResult == true) {
-                string s =  customAct.ActionPath.Text;
+            if (customAct.DialogResult == true)
+            {
+                string s = customAct.ActionPath.Text;
                 string n = System.IO.Path.GetFileNameWithoutExtension(s);
                 String icon = "\\images\\action_icon.png";
-                ListaAzioniLuogo.Items.Add(new ActionManager.itemApp { applicazione = s, icon=icon, name = n });
-                
+                ListaAzioniLuogo.Items.Add(new ActionManager.itemApp { applicazione = s, icon = icon, name = n });
+
             }
         }
 
