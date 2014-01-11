@@ -5,7 +5,8 @@
                       Title="Sniper"
                       Icon="images/mirino.png"
                       Height="600"
-                      Width="800">
+                      Width="1024"
+                      Background="#efefefef">
     <Window.Resources>
         <Style x:Key="HomeBut" TargetType="{x:Type Button}">
             <Setter Property="Template">
@@ -35,9 +36,9 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="1"/>
-            <RowDefinition Height="Auto" MinHeight="451"/>
+            <RowDefinition Height="Auto" MinHeight="800"/>
         </Grid.RowDefinitions>
-        <StackPanel Orientation="Horizontal" Margin="0,0,0,-26" Button.Click="HandleClick" Grid.RowSpan="2">
+        <StackPanel Orientation="Horizontal" Margin="0,0,0,-26" Button.Click="HandleClick" Grid.RowSpan="2" Background="#efefefef">
             <DockPanel Margin="1,0,0,0" Width="240
                        ">
                 <Frame x:Name="_menuFrame" Navigated="_mainFrame_Navigated" Width="262" NavigationUIVisibility="Hidden"  VerticalAlignment="Top" />

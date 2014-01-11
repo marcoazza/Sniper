@@ -23,7 +23,7 @@ namespace WiFiLoc_Service
         }
         public void acquireNetworkList() {
 
-            WlanClient client = new WlanClient();
+            WlanClient client =  WlanClient.getInstance();
             foreach (WlanClient.WlanInterface wlanIface in client.Interfaces)
             {
                // wlanIface.Scan();
