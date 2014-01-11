@@ -11,7 +11,7 @@
         <StackPanel Margin="0,35,0,10" HorizontalAlignment="Right" Width="190">
             <Button x:Name="AddLuogo" Content="Aggiungi Luogo"  Height="60" Click="AddLuogo_Click"/>
             <Button x:Name="DelLuogo" Content="Rimuovi Luogo"  Height="60" Click="DelLuogo_Click"/>
-            <Button x:Name="ModLuogo" Content="Modifica Luogo"  Height="60" Click="ModLuogo_Click"/>
+            <Button x:Name="ModLuogo" Content="Modifica Luogo"  Height="60" Click="ModLuogo_Click" HorizontalAlignment="Left" Width="190"/>
         </StackPanel>
     </Grid>
 </Page>

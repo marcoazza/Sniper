@@ -67,7 +67,7 @@ namespace WiFiLoc_Service
         /// <summary>
         /// get from database the places already saved
         /// </summary>
-        /// <returns> return ArrayList containing stored places </returns>
+        /// <returns> return ArrayList containing stored places, or an empty array if there are not places stored</returns>
         public static ArrayList getPossibiliLuoghi()
         {
             ArrayList luoghi= new ArrayList();
@@ -410,12 +410,94 @@ namespace WiFiLoc_Service
         /// <summary>
         /// change place
         /// </summary>
-        public static void ChangePlace(string placeName)
+        public static void ChangePlace(Luogo placeToBeUpdated,string oldName)
         {
-            Luogo placeToBeUpdated = new Luogo();
-            placeToBeUpdated.NomeLuogo = placeName;
-            placeToBeUpdated.NetwList.acquireNetworkList();
-            if (placeToBeUpdated.NomeLuogo != null && placeToBeUpdated.NomeLuogo != "" && placeToBeUpdated.checkIfNameExist())
+
+            if (placeToBeUpdated.NomeLuogo == oldName)
+            {
+                ChangeActions(placeToBeUpdated, oldName);
+            }
+            else {
+                ChangePlaceAndName(placeToBeUpdated, oldName);
+            }
+
+            return;
+        }
+
+        private static void ChangeActions(Luogo placeToBeUpdated, string oldName)
+        {
+
+            if (placeToBeUpdated.NomeLuogo != null && placeToBeUpdated.NomeLuogo != "")
+            {
+
+                SqlCeConnection sc = DBconnection.getDBConnection();
+                sc.Open();
+
+                LocalAppDBDataSet lds = new LocalAppDBDataSet();
+                SqlCeDataAdapter sdaL = new SqlCeDataAdapter("SELECT * FROM Luogo", sc);
+                SqlCeDataAdapter sdaA = new SqlCeDataAdapter("SELECT * FROM Azione", sc);
+
+                SqlCeCommandBuilder builderL = new SqlCeCommandBuilder(sdaL);
+                SqlCeCommandBuilder builderA = new SqlCeCommandBuilder(sdaA);
+
+                sdaL.Fill(lds, "Luogo");
+                sdaA.Fill(lds, "Azione");
+
+                SqlCeCommand sqlcom = new SqlCeCommand("SELECT id FROM Luogo WHERE luogo='" + oldName + "'", sc);
+                SqlCeDataReader sdr = sqlcom.ExecuteReader();
+                sdr.Read();
+                placeToBeUpdated.Id = sdr.GetInt32(0);
+
+                sdr.Close();
+
+                foreach (DataRow dr in lds.Luogo.Rows)
+                {
+
+                    LocalAppDBDataSet.LuogoRow ldr = (LocalAppDBDataSet.LuogoRow)dr;
+                    if (ldr.id == placeToBeUpdated.Id)
+                    {
+                        ldr.luogo = placeToBeUpdated.NomeLuogo;
+                        // mark as removed actions
+                        foreach (DataRow cr in dr.GetChildRows(lds.Relations["FK_Luogo_Azione"]))
+                        {
+
+                            LocalAppDBDataSet.AzioneRow acr = (LocalAppDBDataSet.AzioneRow)cr;
+                            if (acr.id_l == ldr.id)
+                            {
+                                cr.Delete();
+                            }
+
+                        }
+                        //add action to dataset
+                        foreach (ActionList.Action action in placeToBeUpdated.ActionsList.GetAll())
+                        {
+                            LocalAppDBDataSet.AzioneRow ar = lds.Azione.NewAzioneRow();
+                            ar.id_l = placeToBeUpdated.Id;
+                            ar.azione = action.Path;
+                            lds.Azione.Rows.Add(ar);
+                        }
+                    }
+
+                }
+
+                //apply changes to DB
+                //attenzione all'ordine con cui eseguo i comandi!, prima Segnale poi Luogo
+                //altrimenti incasino il DB x i vincoli tra le chiavi
+                int c = sdaA.Update(lds, "Azione");
+                int b = sdaL.Update(lds, "Luogo");
+
+                lds.Luogo.AcceptChanges();
+                lds.Segnale.AcceptChanges();
+
+                sc.Close();
+            }
+
+            return;
+        }
+        private static void ChangePlaceAndName(Luogo placeToBeUpdated, string oldName)
+        {
+
+            if (placeToBeUpdated.NomeLuogo != null && placeToBeUpdated.NomeLuogo != "" && !placeToBeUpdated.checkIfNameExist())
             {
                 ArrayList luoghi = new ArrayList();
                 SqlCeConnection sc = DBconnection.getDBConnection();
@@ -431,9 +513,9 @@ namespace WiFiLoc_Service
                 SqlCeCommandBuilder builderA = new SqlCeCommandBuilder(sdaA);
                 sdaL.Fill(lds, "Luogo");
                 sdaS.Fill(lds, "Segnale");
-                sdaS.Fill(lds, "Azione");
+                sdaA.Fill(lds, "Azione");
 
-                SqlCeCommand sqlcom = new SqlCeCommand("SELECT id FROM Luogo WHERE luogo='" + placeToBeUpdated.NomeLuogo + "'", sc);
+                SqlCeCommand sqlcom = new SqlCeCommand("SELECT id FROM Luogo WHERE luogo='" + oldName + "'", sc);
                 SqlCeDataReader sdr = sqlcom.ExecuteReader();
                 sdr.Read();
                 placeToBeUpdated.Id = sdr.GetInt32(0);
@@ -448,7 +530,7 @@ namespace WiFiLoc_Service
                     {
                         //update place name
                         ldr.luogo = placeToBeUpdated.NomeLuogo;
-                        
+
                         // mark as removed action
                         foreach (DataRow cr in dr.GetChildRows(lds.Relations["FK_Luogo_Azione"]))
                         {
@@ -468,7 +550,7 @@ namespace WiFiLoc_Service
                             ar.azione = action.Path;
                             lds.Azione.Rows.Add(ar);
                         }
-                  
+
                     }
 
                 }
@@ -476,7 +558,7 @@ namespace WiFiLoc_Service
                 //apply changes to DB
                 //attenzione all'ordine con cui eseguo i comandi!, prima Segnale poi Luogo
                 //altrimenti incasino il DB x i vincoli tra le chiavi
-                int c = sdaS.Update(lds, "Azione");
+                int c = sdaA.Update(lds, "Azione");
                 int b = sdaL.Update(lds, "Luogo");
 
                 lds.Luogo.AcceptChanges();
@@ -484,7 +566,6 @@ namespace WiFiLoc_Service
 
                 sc.Close();
             }
-
             return;
         }
     }

@@ -31,6 +31,17 @@ namespace WiFiLoc_App
         }
 
 
+        public static itemApp getAssociatedItem(string path) {
+            string envPath = Environment.CurrentDirectory.ToString();
+            string n = System.IO.Path.GetFileNameWithoutExtension(path);
+            String ico = envPath + "\\images\\" + n + ".ico";
+            if(!System.IO.File.Exists(ico)){
+                ico =  "\\images\\action_icon.png";
+            }
+            return new itemApp {applicazione=path,icon=ico, name=n }; 
+        }
+
+
         public static void startProcess(string stringProc) {
             Process p = new Process();
             p.StartInfo.FileName = stringProc;
