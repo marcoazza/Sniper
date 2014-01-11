@@ -1,0 +1,18 @@
+﻿<Page x:Class="WiFiLoc_App.Menu.MainMenu"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      mc:Ignorable="d" 
+      d:DesignHeight="500
+      " d:DesignWidth="240"
+	Title="MainMenu">
+
+    <Grid>
+        <Button x:Name="Home" Content="Home" HorizontalAlignment="Left" Margin="22,36,0,0" VerticalAlignment="Top" Width="196" Height="87" FontSize="30" Foreground="#FF2BA2CF" />
+        <Button Content="Places" HorizontalAlignment="Left" Margin="22,153,0,0" VerticalAlignment="Top" Width="196" Height="87" FontSize="30" Foreground="#FF2BA2CF" />
+        <Button x:Name="AddPlace" Content="Add Place" HorizontalAlignment="Left" Margin="22,267,0,0" VerticalAlignment="Top" Width="196" Height="87" FontSize="30" Foreground="#FF2BA2CF" Click="handler" />
+        <Button Content="Stats" HorizontalAlignment="Left" Margin="22,390,0,0" VerticalAlignment="Top" Width="196" Height="87" FontSize="30" Foreground="#FF2BA2CF" />
+
+    </Grid>
+</Page>

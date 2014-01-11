@@ -19,6 +19,8 @@ using System.Data.SqlClient;
 using WiFiLoc_App;
 using WiFiLoc_Service;
 using WiFiLoc_App.Menu;
+using MahApps.Metro;
+using MahApps.Metro.Controls;
 
 using System.Drawing;
 using System.Threading;
@@ -29,7 +31,7 @@ namespace WiFiLoc_App
     /// <summary>
     /// Logica di interazione per MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : MetroWindow
     {
        public static Window win;
 
@@ -38,8 +40,9 @@ namespace WiFiLoc_App
             InitializeComponent();
             win = this;
             
-            _mainFrame.NavigationService.Navigate("Hello world");
-            _mainFrame.NavigationService.Navigate(new Uri("Pages/AppList.xaml", UriKind.Relative));            
+            _mainFrame.NavigationService.Navigate(new Uri("Pages/Home.xaml", UriKind.Relative));
+            _menuFrame.NavigationService.Navigate(new Uri("Menu/MainMenu.xaml", UriKind.Relative));
+
         }
 
 
@@ -50,8 +53,11 @@ namespace WiFiLoc_App
             // Get the element that raised the event. 
             FrameworkElement fe = (FrameworkElement)args.OriginalSource;
 
-            switch (fe.Name) { 
-                case "AddLuogo":
+            switch (fe.Name) {
+                case "Home":
+                    _mainFrame.NavigationService.Navigate(new Uri("Pages/Home.xaml", UriKind.Relative));
+                    break;
+                case "AddPlace":
                     _mainFrame.NavigationService.Navigate(new Uri("Pages/AddLuogo.xaml", UriKind.Relative));
                     break;
                 case "DelLuogo":

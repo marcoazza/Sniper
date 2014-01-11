@@ -3,12 +3,14 @@
       xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:controls="http://metro.mahapps.com/winfx/xaml/controls"
+
       mc:Ignorable="d" 
       d:DesignHeight="600" d:DesignWidth="800"
 	Title="AddLuogo">
 
     <Grid Margin="0,0,0,0">
-        <ListBox x:Name="ListaAzioniPredefinite" HorizontalAlignment="Left" Height="109" Margin="26,209,0,0" VerticalAlignment="Top" Width="260" Background="{x:Null}">
+        <ListBox x:Name="ListaAzioniPredefinite" HorizontalAlignment="Left" Height="109" Margin="69,212,0,0" VerticalAlignment="Top" Width="260" BorderThickness="1" >
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Vertical">
@@ -20,26 +22,47 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <Label Content="Azioni Predefinite" HorizontalAlignment="Left" Margin="26,184,0,0" VerticalAlignment="Top" Width="110" Height="25"/>
-        <ListBox x:Name="ListaAzioniLuogo" HorizontalAlignment="Left" Height="109" Margin="438,209,0,0" VerticalAlignment="Top" Width="285">
+        <Label Content="Custom Action" HorizontalAlignment="Left" Margin="69,187,0,0" VerticalAlignment="Top" Width="110" Height="25"/>
+        <ListBox x:Name="ListaAzioniLuogo" HorizontalAlignment="Left" Height="348" Margin="438,209,0,0" VerticalAlignment="Top" Width="285" BorderThickness="1" SelectionChanged="ListaAzioniLuogo_SelectionChanged">
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="{Binding Path=icon}" Width="24" Height="24"></Image>
                             <TextBlock Text="{Binding Path=name}" Height="24" FontSize="18"></TextBlock>
+                            <TextBlock Text="X" Height="24" FontSize="18"></TextBlock>
+                            <Button x:Name="AggiungiAzioneButton" Content="x" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Top" Width="33" Height="33"  Click="Remove_Click"
+                Style="{DynamicResource MetroCircleButtonStyle}" Foreground="#FF707070" HorizontalContentAlignment="Center"/>
                         </StackPanel>
                     </StackPanel>
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <Label Content="Azioni nel luogo" HorizontalAlignment="Left" Margin="438,179,0,0" VerticalAlignment="Top" Width="127" Height="30"/>
-        <Button x:Name="AggiungiAzioneButton" Content=">>" HorizontalAlignment="Left" Margin="340,226,0,0" VerticalAlignment="Top" Width="30" Height="30" RenderTransformOrigin="0.477,0.039" Click="AggiungiAzioneButton_Click"/>
-        <Button x:Name="Remove" Content=" - " HorizontalAlignment="Left" VerticalAlignment="Top" Width="30" Margin="438,323,0,0" Height="30" RenderTransformOrigin="0.4,1.9" Click="Remove_Click"/>
-        <Button x:Name="AddCustomAction" Content="Aggiungi azione personalizzata" HorizontalAlignment="Left" Margin="26,342,0,0" VerticalAlignment="Top" Width="175" Click="AddCustomAction_Click"/>
-        <Button x:Name="AggiungiLuogoButton" Content="Aggiungi" HorizontalAlignment="Left" Margin="164,395,0,0" VerticalAlignment="Top" Width="99" Height="45" Click="AggiungiLuogoButton_Click"/>
-        <Label Content="Nome " HorizontalAlignment="Left" Margin="26,143,0,0" VerticalAlignment="Top" Width="60"/>
-        <TextBox x:Name="NomeLuogo" HorizontalAlignment="Left" Height="23" Margin="81,146,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="120"/>
-        <Label Content="Aggiungi Luogo" Margin="128,43,128,0" VerticalAlignment="Top" Height="44" FontSize="24" FontWeight="Bold"/>
+        <Label Content="Actions" HorizontalAlignment="Left" Margin="438,179,0,0" VerticalAlignment="Top" Width="127" Height="30"/>
+        <Button x:Name="AggiungiAzioneButton" Content=">" FontWeight="Bold" HorizontalAlignment="Left" Margin="371,252,0,0" VerticalAlignment="Top" Width="40" Height="40" RenderTransformOrigin="0.477,0.039" Click="AggiungiAzioneButton_Click"
+                Style="{DynamicResource MetroCircleButtonStyle}" Foreground="#FF707070" HorizontalContentAlignment="Center"/>
+        <Button x:Name="Remove" Content=" - " HorizontalAlignment="Left" VerticalAlignment="Top" Width="30" Margin="619,143,0,0" Height="30" RenderTransformOrigin="0.4,1.9" Click="Remove_Click"/>
+        <Button x:Name="AddCustomAction" Content="Add custom action" HorizontalAlignment="Left" Margin="112,532,0,0" VerticalAlignment="Top" Width="175" Click="AddCustomAction_Click"/>
+        <Button x:Name="AggiungiLuogoButton" Content="Aggiungi" HorizontalAlignment="Left" Margin="551,53,0,0" VerticalAlignment="Top" Width="133" Height="65" Click="AggiungiLuogoButton_Click"/>
+        <Label Content="Name: " HorizontalAlignment="Left" Margin="44,143,0,0" VerticalAlignment="Top" Width="60" controls:TextboxHelper.Watermark="This is a textbox"/>
+        <TextBox x:Name="NomeLuogo" HorizontalAlignment="Left" Height="23" Margin="126,143,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="209" 
+                 controls:TextboxHelper.Watermark="Add a name for your new place..." controls:TextboxHelper.ClearTextButton="True"/>
+        <Label Content="Add Place" Margin="26,42,230,0" VerticalAlignment="Top" Height="65" FontSize="40
+               "/>
+        <ListBox x:Name="ListaAzioniPredefinite_Copy" HorizontalAlignment="Left" Height="109" Margin="69,379,0,0" VerticalAlignment="Top" Width="260" BorderThickness="1" >
+            <ListBox.ItemTemplate>
+                <DataTemplate>
+                    <StackPanel Orientation="Vertical">
+                        <StackPanel Orientation="Horizontal">
+                            <Image Source="{Binding icon}" Width="24" Height="24"/>
+                            <TextBlock Text="{Binding name}" Height="24" FontSize="18"/>
+                        </StackPanel>
+                    </StackPanel>
+                </DataTemplate>
+            </ListBox.ItemTemplate>
+        </ListBox>
+        <Label Content="Firewall Action" HorizontalAlignment="Left" Margin="69,349,0,0" VerticalAlignment="Top" Width="110" Height="25"/>
+        <Button x:Name="AggiungiAzioneButton_Copy" Content="&gt;&gt;" HorizontalAlignment="Left" Margin="371,430,0,0" VerticalAlignment="Top" Width="33" Height="33" RenderTransformOrigin="0.477,0.039" Click="AggiungiAzioneButton_Click"
+        	Style="{DynamicResource MetroCircleButtonStyle}" Foreground="#FF707070"/>
     </Grid>
 </Page>

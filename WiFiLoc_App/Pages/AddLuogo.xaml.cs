@@ -70,5 +70,10 @@ namespace WiFiLoc_App
         {
             ListaAzioniLuogo.Items.Remove(ListaAzioniLuogo.SelectedItem);
         }
+
+        private void ListaAzioniLuogo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
     }
 }

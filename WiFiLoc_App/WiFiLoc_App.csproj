@@ -111,6 +111,9 @@
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Logger.cs" />
+    <Compile Include="Menu\MainMenu.xaml.cs">
+      <DependentUpon>MainMenu.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Menu\menuClear.xaml.cs">
       <DependentUpon>menuClear.xaml</DependentUpon>
     </Compile>
@@ -121,7 +124,7 @@
       <DependentUpon>AppList.xaml</DependentUpon>
     </Compile>
     <Compile Include="ActionManager.cs" />
-    <Compile Include="Menu\MenuLuogo.xaml.cs">
+    <Compile Include="Pages\MenuLuogo.xaml.cs">
       <DependentUpon>MenuLuogo.xaml</DependentUpon>
     </Compile>
     <Compile Include="Menu\AggiungiLuogo.xaml.cs">
@@ -129,6 +132,9 @@
     </Compile>
     <Compile Include="Pages\DelLuogo.xaml.cs">
       <DependentUpon>DelLuogo.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\Home.xaml.cs">
+      <DependentUpon>Home.xaml</DependentUpon>
     </Compile>
     <Compile Include="Pages\ModLuogo.xaml.cs">
       <DependentUpon>ModLuogo.xaml</DependentUpon>
@@ -143,6 +149,10 @@
     </Compile>
     <Compile Include="WlanApi.cs" />
     <Page Include="CustomActionWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Menu\MainMenu.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -171,7 +181,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Menu\MenuLuogo.xaml">
+    <Page Include="Pages\MenuLuogo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -183,6 +193,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Pages\Home.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Pages\ModLuogo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -190,6 +204,10 @@
     <Page Include="Pages\WelcomeLuogo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Resources\Icons.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
   <ItemGroup>
@@ -226,6 +244,7 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
+    <Resource Include="Resources\Entypo.ttf" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -256,6 +275,8 @@
     <Content Include="dbLocale.sdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="Resources\Entypo-license.txt" />
+    <Resource Include="images\mirino.png" />
     <Resource Include="images\action_icon.png" />
     <Resource Include="images\homeButton.png" />
   </ItemGroup>

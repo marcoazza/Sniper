@@ -93,7 +93,7 @@ namespace WiFiLoc_Service
                 }
             }
 
-            WlanClient client = new WlanClient();
+            WlanClient client = WlanClient.getInstance();
             foreach (WlanClient.WlanInterface wlanIface in client.Interfaces)
             {
                 // Lists all networks with WEP security

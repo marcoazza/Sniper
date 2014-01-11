@@ -628,7 +628,17 @@ namespace NativeWifi
 		/// <summary>
 		/// Creates a new instance of a Native Wifi service client.
 		/// </summary>
-		public WlanClient()
+        ///
+        private static WlanClient Instance=null;
+        public static WlanClient getInstance() {
+            if (Instance == null) {
+                Instance = new WlanClient();
+            }
+            return Instance;
+        
+        }
+
+		private WlanClient()
 		{
 			Wlan.ThrowIfError(
 				Wlan.WlanOpenHandle(Wlan.WLAN_CLIENT_VERSION_XP_SP2, IntPtr.Zero, out negotiatedVersion, out clientHandle));
