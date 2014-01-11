@@ -61,16 +61,16 @@ namespace WiFiLoc_App.Pages
                 currentPlace = Locator.locate();
                 Del dlgLabel = updateLabel;
                 DelNetList dlgNetList = updateNetWorkList;
-
+                placeToLocate.saveNextList();
 
                 if (currentPlace != null)
                 {
                     currentPlaceLabel.Dispatcher.BeginInvoke(dlgLabel, currentPlace.NomeLuogo);
-                    NetworkList.Dispatcher.BeginInvoke(dlgNetList,currentPlace.NetwList);
+                    NetworkList.Dispatcher.BeginInvoke(dlgNetList, placeToLocate.NetwList);
                 }
                 else {
                     currentPlaceLabel.Dispatcher.BeginInvoke(dlgLabel, FAIL_LOCATE);
-                    placeToLocate.saveNextList();
+                    
                     NetworkList.Dispatcher.BeginInvoke(dlgNetList, placeToLocate.NetwList);
                 }
                 

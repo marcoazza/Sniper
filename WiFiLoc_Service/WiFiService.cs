@@ -83,34 +83,12 @@ namespace WiFiLoc_Service
 
         protected void showInterfaces() {
 
-            Stopwatch stopwatch = Stopwatch.StartNew();
-            while (true)
-            {
-                //some other processing to do possible
-                if (stopwatch.ElapsedMilliseconds >= 30)
-                {
-                    break;
-                }
+            while (true) {
+                WlanClient wc = WlanClient.getInstance();
+                wc.Interfaces[0].Scan();
+                Thread.Sleep(10000);
             }
 
-            WlanClient client = WlanClient.getInstance();
-            foreach (WlanClient.WlanInterface wlanIface in client.Interfaces)
-            {
-                // Lists all networks with WEP security
-                Wlan.WlanBssEntry[] bsss=wlanIface.GetNetworkBssList();
-                Wlan.WlanAvailableNetwork[] networks = wlanIface.GetAvailableNetworkList(0);
-                
-
-                foreach (Wlan.WlanAvailableNetwork network in networks)
-                {
-                    string m;
-
-                    m=GetStringForSSID(network.dot11Ssid)+" "+network.wlanSignalQuality;
-                        eventLog1.WriteEntry(m);
-                    
-                    
-                }
-            } 
         }
         
 

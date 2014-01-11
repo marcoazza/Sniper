@@ -48,6 +48,12 @@ namespace WiFiLoc_App.Pages
 
         private void erase(object sender, RoutedEventArgs e)
         {
+            string eracePlace = (string)placesList.SelectedItem;
+            if (eracePlace != null)
+            {
+                Luogo.removeLuogoFromDB(eracePlace);
+            }
+        
 
         }
 
