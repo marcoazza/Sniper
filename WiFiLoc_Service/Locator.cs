@@ -160,7 +160,11 @@ namespace WiFiLoc_Service
 
         }
 
-
+        /// <summary>
+        /// Convert signal power to estimated distance
+        /// </summary>
+        /// <param name="signalPower">signal power</param>
+        /// <returns>estimated distance given signal power</returns>
         private static double powerToDistance(double signalPower)
         {
             return (double)Math.Pow(10.0, (signalPower + 44.8) / (-22.0));
