@@ -39,6 +39,46 @@ namespace WiFiLoc_Service
             Timestat = 0;
         }
 
+
+        /// <summary>
+        /// get or set place name
+        /// </summary>
+        public string NomeLuogo {
+            get{ return _nomeLuogo;
+                }
+            set {
+                _nomeLuogo = value;
+            }
+        }
+
+        /// <summary>
+        /// get or set place id
+        /// </summary>
+        public int Id {
+        get {return _id; }
+        set{_id = value; }
+        }
+
+        /// <summary>
+        /// get or set times inside place
+        /// </summary>
+        public long Timestat { get; set; }
+
+        /// <summary>
+        /// get place network list
+        /// </summary>
+        public NetworkList NetwList {
+            get { return netwlist; }
+        }
+
+        /// <summary>
+        /// get place actions list
+        /// </summary>
+        public ActionList ActionsList { get { return actionsList; } }
+
+        /// <summary>
+        /// acquire and store scanned network
+        /// </summary>
         public void saveNextList() { 
             netwlist = new NetworkList();
             netwlist.acquireNetworkList();
@@ -51,26 +91,6 @@ namespace WiFiLoc_Service
                 return false;
             return (this.Id == l.Id && this.NomeLuogo == l.NomeLuogo);
         }
-
-        public string NomeLuogo {
-            get{ return _nomeLuogo;
-                }
-            set {
-                _nomeLuogo = value;
-            }
-        }
-
-        public int Id {
-        get {return _id; }
-        set{_id = value; }
-        }
-        public long Timestat { get; set; }
-
-        public NetworkList NetwList {
-            get { return netwlist; }
-        }
-        public ActionList ActionsList { get { return actionsList; } }
-
         /// <summary>
         /// get from database the places already saved
         /// </summary>
@@ -129,6 +149,11 @@ namespace WiFiLoc_Service
 
         }
 
+        /// <summary>
+        /// get from database specific place
+        /// </summary>
+        /// <param name="name">name of place to be retrived</param>
+        /// <returns> return place</returns>
 
         public static Luogo getLuogo(string name)
         {
@@ -206,13 +231,11 @@ namespace WiFiLoc_Service
             SqlCeCommandBuilder builderS = new SqlCeCommandBuilder(sdaS);
             SqlCeCommandBuilder builderA = new SqlCeCommandBuilder(sdaA);
             SqlCeTransaction st = sc.BeginTransaction();
-
-            sdaL.Fill(lds, "Luogo");
-            sdaS.Fill(lds, "Segnale");
-            sdaA.Fill(lds, "Azione");
-
             try
             {
+                sdaL.Fill(lds, "Luogo");
+                sdaS.Fill(lds, "Segnale");
+                sdaA.Fill(lds, "Azione");
                 lr.luogo = _nomeLuogo;
                 lr.timestat = Timestat ;
                 lds.Luogo.Rows.Add(lr);
@@ -225,7 +248,6 @@ namespace WiFiLoc_Service
                 SqlCeDataReader sdr = sqlcom.ExecuteReader();
                 sdr.Read();
                 int id = sdr.GetInt32(0);
-
                 sdr.Close();
 
                 //add networks to table Segnale
@@ -258,26 +280,17 @@ namespace WiFiLoc_Service
                         lds.Azione.Rows.Add(ar);
                     }
                 }
-
-                try
-                {
-                    b = sdaS.Update(lds, "Segnale");
-                    b = sdaA.Update(lds, "Azione");
-                    //commit changes from dataset to database
-                    lds.Luogo.AcceptChanges();
-                    lds.Segnale.AcceptChanges();
-                    lds.Azione.AcceptChanges();
-                    st.Commit();
-
-                }
-                catch (Exception e)
-                {
-                    st.Rollback();
-                } 
+                b = sdaS.Update(lds, "Segnale");
+                b = sdaA.Update(lds, "Azione");
+                //commit changes from dataset to database
+                lds.Luogo.AcceptChanges();
+                lds.Segnale.AcceptChanges();
+                lds.Azione.AcceptChanges();
+                st.Commit(); 
             }
 
-            catch (ConstraintException e) {
-
+            catch (Exception e) {
+                st.Rollback();
                 throw e;
             }
 
@@ -301,56 +314,67 @@ namespace WiFiLoc_Service
             SqlCeCommandBuilder builderL = new SqlCeCommandBuilder(sdaL);
             SqlCeCommandBuilder builderS = new SqlCeCommandBuilder(sdaS);
             SqlCeCommandBuilder builderA = new SqlCeCommandBuilder(sdaA);
-
-            sdaL.Fill(lds, "Luogo");
-            sdaS.Fill(lds, "Segnale");
-            sdaA.Fill(lds, "Azione");
-
-            foreach (DataRow dr in lds.Luogo.Rows)
+            SqlCeTransaction st = sc.BeginTransaction();
+            try
             {
+                sdaL.Fill(lds, "Luogo");
+                sdaS.Fill(lds, "Segnale");
+                sdaA.Fill(lds, "Azione");
 
-                LocalAppDBDataSet.LuogoRow ldr = (LocalAppDBDataSet.LuogoRow)dr;
-                if(ldr.luogo == luogo){
-               
-                // mark as removed signals
-                foreach (DataRow cr in dr.GetChildRows(lds.Relations["FK_Luogo_Segnale"]))
+                foreach (DataRow dr in lds.Luogo.Rows)
                 {
 
-                    LocalAppDBDataSet.SegnaleRow scr = (LocalAppDBDataSet.SegnaleRow)cr;
-                    if (scr.id_luogo == ldr.id) {
-                        cr.Delete();
-                    }
-                
-                }
-                // mark as removed actions
-                foreach (DataRow currentRow in dr.GetChildRows(lds.Relations["FK_Luogo_Azione"]))
-                {
-
-                    LocalAppDBDataSet.AzioneRow acr = (LocalAppDBDataSet.AzioneRow)currentRow;
-                    if (acr.id_l == ldr.id)
+                    LocalAppDBDataSet.LuogoRow ldr = (LocalAppDBDataSet.LuogoRow)dr;
+                    if (ldr.luogo == luogo)
                     {
-                        currentRow.Delete();
+
+                        // mark as removed signals
+                        foreach (DataRow cr in dr.GetChildRows(lds.Relations["FK_Luogo_Segnale"]))
+                        {
+
+                            LocalAppDBDataSet.SegnaleRow scr = (LocalAppDBDataSet.SegnaleRow)cr;
+                            if (scr.id_luogo == ldr.id)
+                            {
+                                cr.Delete();
+                            }
+
+                        }
+                        // mark as removed actions
+                        foreach (DataRow currentRow in dr.GetChildRows(lds.Relations["FK_Luogo_Azione"]))
+                        {
+
+                            LocalAppDBDataSet.AzioneRow acr = (LocalAppDBDataSet.AzioneRow)currentRow;
+                            if (acr.id_l == ldr.id)
+                            {
+                                currentRow.Delete();
+                            }
+
+                        }
+                        //segno come cancellate la rispettiva riga di Luogo
+                        dr.Delete();
                     }
 
                 }
-                //segno come cancellate la rispettiva riga di Luogo
-                dr.Delete();
-                }
-                
+
+                //apply changes to DB
+                //attenzione all'ordine con cui eseguo i comandi!, prima Segnale poi Luogo
+                //altrimenti incasino il DB x i vincoli tra le chiavi
+                int c = sdaS.Update(lds, "Segnale");
+                c = sdaA.Update(lds, "Azione");
+                int b = sdaL.Update(lds, "Luogo");
+
+                lds.Luogo.AcceptChanges();
+                lds.Segnale.AcceptChanges();
+                lds.Azione.AcceptChanges();
+                st.Commit();
+                sc.Close();
+
+            }
+            catch (Exception e) {
+                st.Rollback();
+                throw e;
             }
 
-            //apply changes to DB
-            //attenzione all'ordine con cui eseguo i comandi!, prima Segnale poi Luogo
-            //altrimenti incasino il DB x i vincoli tra le chiavi
-            int c = sdaS.Update(lds, "Segnale");
-            c = sdaA.Update(lds, "Azione");
-            int b = sdaL.Update(lds, "Luogo");
-            
-            lds.Luogo.AcceptChanges();
-            lds.Segnale.AcceptChanges();
-            lds.Azione.AcceptChanges();
-
-            sc.Close();
             return;
         }
 
@@ -401,79 +425,87 @@ namespace WiFiLoc_Service
                 LocalAppDBDataSet lds = new LocalAppDBDataSet();
                 SqlCeDataAdapter sdaL = new SqlCeDataAdapter("SELECT * FROM Luogo", sc);
                 SqlCeDataAdapter sdaS = new SqlCeDataAdapter("SELECT * FROM Segnale", sc);
-                
+
                 SqlCeCommandBuilder builderL = new SqlCeCommandBuilder(sdaL);
                 SqlCeCommandBuilder builderS = new SqlCeCommandBuilder(sdaS);
-               
-                sdaL.Fill(lds, "Luogo");
-                sdaS.Fill(lds, "Segnale");
+                SqlCeTransaction st = sc.BeginTransaction();
+                try{
+
+                    sdaL.Fill(lds, "Luogo");
+                    sdaS.Fill(lds, "Segnale");
                 
-                SqlCeCommand sqlcom = new SqlCeCommand("SELECT id FROM Luogo WHERE luogo='" + placeToBeUpdated.NomeLuogo + "'", sc);
-                SqlCeDataReader sdr = sqlcom.ExecuteReader();
-                sdr.Read();
-                placeToBeUpdated.Id = sdr.GetInt32(0);
+                    SqlCeCommand sqlcom = new SqlCeCommand("SELECT id FROM Luogo WHERE luogo='" + placeToBeUpdated.NomeLuogo + "'", sc);
+                    SqlCeDataReader sdr = sqlcom.ExecuteReader();
+                    sdr.Read();
+                    placeToBeUpdated.Id = sdr.GetInt32(0);
 
-                sdr.Close();
+                    sdr.Close();
                
-                foreach (DataRow dr in lds.Luogo.Rows)
-                {
-
-                    LocalAppDBDataSet.LuogoRow ldr = (LocalAppDBDataSet.LuogoRow)dr;
-                    if (ldr.id == placeToBeUpdated.Id)
+                    foreach (DataRow dr in lds.Luogo.Rows)
                     {
 
-                        // mark as removed signals
-                        foreach (DataRow cr in dr.GetChildRows(lds.Relations["FK_Luogo_Segnale"]))
+                        LocalAppDBDataSet.LuogoRow ldr = (LocalAppDBDataSet.LuogoRow)dr;
+                        if (ldr.id == placeToBeUpdated.Id)
                         {
 
-                            LocalAppDBDataSet.SegnaleRow scr = (LocalAppDBDataSet.SegnaleRow)cr;
-                            if (scr.id_luogo == ldr.id)
+                            // mark as removed signals
+                            foreach (DataRow cr in dr.GetChildRows(lds.Relations["FK_Luogo_Segnale"]))
                             {
-                                cr.Delete();
-                            }
 
-                        }
-                        //add networks to table Segnale
-                        foreach (DictionaryEntry de in placeToBeUpdated.NetwList.Hash)
-                        {
-                            Network n = new Network();
-                            n = de.Value as Network;
-                            if (n == null)
-                            {
-                                System.ApplicationException ex = new System.ApplicationException("non è un Network");
-                                throw ex;
-                            }
-                            else
-                            {
-                                LocalAppDBDataSet.SegnaleRow sr = lds.Segnale.NewSegnaleRow();
-                                sr.mac = n.Mac;
-                                sr.id_luogo = placeToBeUpdated.Id;
-                                sr.potenza = (int)n.Potenza;
-                                lds.Segnale.Rows.Add(sr);
-                            }
+                                LocalAppDBDataSet.SegnaleRow scr = (LocalAppDBDataSet.SegnaleRow)cr;
+                                if (scr.id_luogo == ldr.id)
+                                {
+                                    cr.Delete();
+                                }
 
+                            }
+                            //add networks to table Segnale
+                            foreach (DictionaryEntry de in placeToBeUpdated.NetwList.Hash)
+                            {
+                                Network n = new Network();
+                                n = de.Value as Network;
+                                if (n == null)
+                                {
+                                    System.ApplicationException ex = new System.ApplicationException("non è un Network");
+                                    throw ex;
+                                }
+                                else
+                                {
+                                    LocalAppDBDataSet.SegnaleRow sr = lds.Segnale.NewSegnaleRow();
+                                    sr.mac = n.Mac;
+                                    sr.id_luogo = placeToBeUpdated.Id;
+                                    sr.potenza = (int)n.Potenza;
+                                    lds.Segnale.Rows.Add(sr);
+                                }
+
+                            }
                         }
+
                     }
 
+                    //apply changes to DB
+                    //attenzione all'ordine con cui eseguo i comandi!, prima Segnale poi Luogo
+                    //altrimenti incasino il DB x i vincoli tra le chiavi
+                    int c = sdaS.Update(lds, "Segnale");
+                    int b = sdaL.Update(lds, "Luogo");
+
+                    lds.Luogo.AcceptChanges();
+                    lds.Segnale.AcceptChanges();
+                    st.Commit();
+                    sc.Close();
+
                 }
-
-                //apply changes to DB
-                //attenzione all'ordine con cui eseguo i comandi!, prima Segnale poi Luogo
-                //altrimenti incasino il DB x i vincoli tra le chiavi
-                int c = sdaS.Update(lds, "Segnale");
-                int b = sdaL.Update(lds, "Luogo");
-
-                lds.Luogo.AcceptChanges();
-                lds.Segnale.AcceptChanges();
-
-                sc.Close();
+                catch (Exception e) {
+                st.Rollback();
+                throw e;
+            }
             }
 
         return;
         }
 
         /// <summary>
-        /// change place
+        /// update place name or place actions
         /// </summary>
         public static void ChangePlace(Luogo placeToBeUpdated,string oldName)
         {
@@ -488,7 +520,11 @@ namespace WiFiLoc_Service
 
             return;
         }
-
+        /// <summary>
+        /// update place actions
+        /// </summary>
+        /// <param name="placeToBeUpdated">place to be updated</param>
+        /// <param name="oldName">old place name</param>
         private static void ChangeActions(Luogo placeToBeUpdated, string oldName)
         {
 
@@ -504,63 +540,74 @@ namespace WiFiLoc_Service
 
                 SqlCeCommandBuilder builderL = new SqlCeCommandBuilder(sdaL);
                 SqlCeCommandBuilder builderA = new SqlCeCommandBuilder(sdaA);
+                SqlCeTransaction st = sc.BeginTransaction();
+                try{
+                    sdaL.Fill(lds, "Luogo");
+                    sdaA.Fill(lds, "Azione");
 
-                sdaL.Fill(lds, "Luogo");
-                sdaA.Fill(lds, "Azione");
+                    SqlCeCommand sqlcom = new SqlCeCommand("SELECT id FROM Luogo WHERE luogo='" + oldName + "'", sc);
+                    SqlCeDataReader sdr = sqlcom.ExecuteReader();
+                    sdr.Read();
+                    placeToBeUpdated.Id = sdr.GetInt32(0);
 
-                SqlCeCommand sqlcom = new SqlCeCommand("SELECT id FROM Luogo WHERE luogo='" + oldName + "'", sc);
-                SqlCeDataReader sdr = sqlcom.ExecuteReader();
-                sdr.Read();
-                placeToBeUpdated.Id = sdr.GetInt32(0);
+                    sdr.Close();
 
-                sdr.Close();
-
-                foreach (DataRow dr in lds.Luogo.Rows)
-                {
-
-                    LocalAppDBDataSet.LuogoRow ldr = (LocalAppDBDataSet.LuogoRow)dr;
-                    if (ldr.id == placeToBeUpdated.Id)
+                    foreach (DataRow dr in lds.Luogo.Rows)
                     {
-                        ldr.luogo = placeToBeUpdated.NomeLuogo;
-                        // mark as removed actions
-                        foreach (DataRow cr in dr.GetChildRows(lds.Relations["FK_Luogo_Azione"]))
-                        {
 
-                            LocalAppDBDataSet.AzioneRow acr = (LocalAppDBDataSet.AzioneRow)cr;
-                            if (acr.id_l == ldr.id)
+                        LocalAppDBDataSet.LuogoRow ldr = (LocalAppDBDataSet.LuogoRow)dr;
+                        if (ldr.id == placeToBeUpdated.Id)
+                        {
+                            ldr.luogo = placeToBeUpdated.NomeLuogo;
+                            // mark as removed actions
+                            foreach (DataRow cr in dr.GetChildRows(lds.Relations["FK_Luogo_Azione"]))
                             {
-                                cr.Delete();
-                            }
 
+                                LocalAppDBDataSet.AzioneRow acr = (LocalAppDBDataSet.AzioneRow)cr;
+                                if (acr.id_l == ldr.id)
+                                {
+                                    cr.Delete();
+                                }
+
+                            }
+                            //add action to dataset
+                            foreach (ActionList.Action action in placeToBeUpdated.ActionsList.GetAll())
+                            {
+                                LocalAppDBDataSet.AzioneRow ar = lds.Azione.NewAzioneRow();
+                                ar.id_l = placeToBeUpdated.Id;
+                                ar.azione = action.Path;
+                                lds.Azione.Rows.Add(ar);
+                            }
                         }
-                        //add action to dataset
-                        foreach (ActionList.Action action in placeToBeUpdated.ActionsList.GetAll())
-                        {
-                            LocalAppDBDataSet.AzioneRow ar = lds.Azione.NewAzioneRow();
-                            ar.id_l = placeToBeUpdated.Id;
-                            ar.azione = action.Path;
-                            lds.Azione.Rows.Add(ar);
-                        }
+
                     }
 
+                    //apply changes to DB
+                    //attenzione all'ordine con cui eseguo i comandi!, prima Segnale poi Luogo
+                    //altrimenti incasino il DB x i vincoli tra le chiavi
+                    int c = sdaA.Update(lds, "Azione");
+                    int b = sdaL.Update(lds, "Luogo");
+
+                    lds.Luogo.AcceptChanges();
+                    lds.Segnale.AcceptChanges();
+                    st.Commit();
+                    sc.Close(); 
+                }
+                catch (Exception e) {
+                st.Rollback();
+                throw e;
+            }
+                
                 }
 
-                //apply changes to DB
-                //attenzione all'ordine con cui eseguo i comandi!, prima Segnale poi Luogo
-                //altrimenti incasino il DB x i vincoli tra le chiavi
-                int c = sdaA.Update(lds, "Azione");
-                int b = sdaL.Update(lds, "Luogo");
-
-                lds.Luogo.AcceptChanges();
-                lds.Segnale.AcceptChanges();
-
-                sc.Close();
-            }
-
-            return;
+        return;
         }
 
-
+        /// <summary>
+        /// update place actions and place name
+        /// </summary>
+        /// <param name="placeToBeUpdated">place to be updated</param>
+        /// <param name="oldName">old place name</param>
         private static void ChangePlaceAndName(Luogo placeToBeUpdated, string oldName)
         {
 
@@ -578,62 +625,108 @@ namespace WiFiLoc_Service
                 SqlCeCommandBuilder builderL = new SqlCeCommandBuilder(sdaL);
                 SqlCeCommandBuilder builderS = new SqlCeCommandBuilder(sdaS);
                 SqlCeCommandBuilder builderA = new SqlCeCommandBuilder(sdaA);
-                sdaL.Fill(lds, "Luogo");
-                sdaS.Fill(lds, "Segnale");
-                sdaA.Fill(lds, "Azione");
+                SqlCeTransaction st = sc.BeginTransaction();
+                try{
+                    sdaL.Fill(lds, "Luogo");
+                    sdaS.Fill(lds, "Segnale");
+                    sdaA.Fill(lds, "Azione");
 
-                SqlCeCommand sqlcom = new SqlCeCommand("SELECT id FROM Luogo WHERE luogo='" + oldName + "'", sc);
-                SqlCeDataReader sdr = sqlcom.ExecuteReader();
-                sdr.Read();
-                placeToBeUpdated.Id = sdr.GetInt32(0);
+                    SqlCeCommand sqlcom = new SqlCeCommand("SELECT id FROM Luogo WHERE luogo='" + oldName + "'", sc);
+                    SqlCeDataReader sdr = sqlcom.ExecuteReader();
+                    sdr.Read();
+                    placeToBeUpdated.Id = sdr.GetInt32(0);
 
-                sdr.Close();
+                    sdr.Close();
 
-                foreach (DataRow dr in lds.Luogo.Rows)
-                {
-
-                    LocalAppDBDataSet.LuogoRow ldr = (LocalAppDBDataSet.LuogoRow)dr;
-                    if (ldr.id == placeToBeUpdated.Id)
+                    foreach (DataRow dr in lds.Luogo.Rows)
                     {
-                        //update place name
-                        ldr.luogo = placeToBeUpdated.NomeLuogo;
 
-                        // mark as removed action
-                        foreach (DataRow cr in dr.GetChildRows(lds.Relations["FK_Luogo_Azione"]))
+                        LocalAppDBDataSet.LuogoRow ldr = (LocalAppDBDataSet.LuogoRow)dr;
+                        if (ldr.id == placeToBeUpdated.Id)
                         {
+                            //update place name
+                            ldr.luogo = placeToBeUpdated.NomeLuogo;
 
-                            LocalAppDBDataSet.AzioneRow acr = (LocalAppDBDataSet.AzioneRow)cr;
-                            if (acr.id_l == ldr.id)
+                            // mark as removed action
+                            foreach (DataRow cr in dr.GetChildRows(lds.Relations["FK_Luogo_Azione"]))
                             {
-                                cr.Delete();
+
+                                LocalAppDBDataSet.AzioneRow acr = (LocalAppDBDataSet.AzioneRow)cr;
+                                if (acr.id_l == ldr.id)
+                                {
+                                    cr.Delete();
+                                }
+
+                            }
+                            //add action to dataset
+                            foreach (ActionList.Action action in placeToBeUpdated.ActionsList.GetAll())
+                            {
+                                LocalAppDBDataSet.AzioneRow ar = lds.Azione.NewAzioneRow();
+                                ar.id_l = placeToBeUpdated.Id;
+                                ar.azione = action.Path;
+                                lds.Azione.Rows.Add(ar);
                             }
 
-                        }
-                        //add action to dataset
-                        foreach (ActionList.Action action in placeToBeUpdated.ActionsList.GetAll())
-                        {
-                            LocalAppDBDataSet.AzioneRow ar = lds.Azione.NewAzioneRow();
-                            ar.id_l = placeToBeUpdated.Id;
-                            ar.azione = action.Path;
-                            lds.Azione.Rows.Add(ar);
                         }
 
                     }
 
-                }
+                    //apply changes to DB
+                    //attenzione all'ordine con cui eseguo i comandi!, prima Segnale poi Luogo
+                    //altrimenti incasino il DB x i vincoli tra le chiavi
+                    int c = sdaA.Update(lds, "Azione");
+                    int b = sdaL.Update(lds, "Luogo");
 
-                //apply changes to DB
-                //attenzione all'ordine con cui eseguo i comandi!, prima Segnale poi Luogo
-                //altrimenti incasino il DB x i vincoli tra le chiavi
-                int c = sdaA.Update(lds, "Azione");
-                int b = sdaL.Update(lds, "Luogo");
-
-                lds.Luogo.AcceptChanges();
-                lds.Azione.AcceptChanges();
-
-                sc.Close();
+                    lds.Luogo.AcceptChanges();
+                    lds.Azione.AcceptChanges();
+                    st.Commit();
+                    sc.Close();
+                  }
+                catch (Exception e) {
+                st.Rollback();
+                throw e;
+            }
             }
             return;
+        }
+
+        /// <summary>
+        /// add permance time into place
+        /// </summary>
+        /// <param name="newStat">last interval time in place</param>
+        /// <returns>total time in place</returns>
+        public long UpdateStats(int newStat)
+        {
+            SqlCeConnection sc = DBconnection.getDBConnection();
+            sc.Open();
+            LocalAppDBDataSet lds = new LocalAppDBDataSet();
+            SqlCeDataAdapter sdaL = new SqlCeDataAdapter("SELECT * FROM Luogo WHERE luogo='" + this._nomeLuogo + "'", sc);
+            long totTime = -1;
+
+            SqlCeCommandBuilder builderL = new SqlCeCommandBuilder(sdaL);
+            SqlCeTransaction st = sc.BeginTransaction();
+            try{
+                sdaL.Fill(lds,"Luogo");
+                if (lds.Luogo.Rows.Count == 0)
+                {
+                    return totTime;
+                }
+                DataRow dr = lds.Luogo.Rows[0];
+                LocalAppDBDataSet.LuogoRow ldr = (LocalAppDBDataSet.LuogoRow)dr;
+                totTime = ldr.timestat;
+                ldr.timestat += newStat;
+                totTime += newStat;
+                int rowUpdated = sdaL.Update(lds,"Luogo");
+                lds.Luogo.AcceptChanges();
+                st.Commit();
+                sc.Close();
+                
+            }
+                catch (Exception e) {
+                st.Rollback();
+                throw e;
+            }
+            return totTime;
         }
     }
 
