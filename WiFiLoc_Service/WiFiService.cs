@@ -81,10 +81,13 @@ namespace WiFiLoc_Service
         //    return sb.ToString();
         //}
         const int REFRESH_TIME = 10000;
-        protected delegate void placeChanged(Luogo l);
-        private delegate void placeOnContinue(Luogo l);
-        private delegate void placeOnLongContinue(Luogo l);
+        protected delegate void PlaceChanged(Luogo l);
+        protected delegate void PlaceOnContinue(Luogo l);
+        protected delegate void PlaceOnLongContinue(Luogo l);
 
+        PlaceChanged pc;
+        PlaceChanged poc;
+        PlaceChanged polc;
 
         private void showInterfaces() {
             Luogo prevPlace = null;
@@ -95,17 +98,18 @@ namespace WiFiLoc_Service
                 currentPlace = Locator.locate();
                 if (inPlace == 10) { 
                     //call delegate
-                    placeChanged(currentPlace);
+                    
+                    pc(currentPlace);
                 }
 
                 //update Stats
                 if (inPlace % 10 != 0 && inPlace != 10) {
-                    placeOnContinue(currentPlace);
+                    poc(currentPlace);
                 }
                 //update Stats
-                if (inPlace % 50)
+                if (inPlace % 50 == 0)
                 {
-                    placeOnLongContinue(currentPlace);
+                    polc(currentPlace);
                 }
                 //count times which consecutive find same place
                 if (currentPlace != null)
