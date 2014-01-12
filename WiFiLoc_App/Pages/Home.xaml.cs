@@ -49,7 +49,8 @@ namespace WiFiLoc_App.Pages
             NetworkList.Items.Clear();
             foreach(DictionaryEntry n in nl.Hash ){
                 Network net = (Network) n.Value;
-                NetworkList.Items.Add(net.Mac);
+                if(!NetworkList.Items.Contains(net.SSID))
+                    NetworkList.Items.Add(net.SSID);
             }
             
         }

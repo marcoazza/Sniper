@@ -80,17 +80,64 @@ namespace WiFiLoc_Service
         //    }
         //    return sb.ToString();
         //}
+        const int REFRESH_TIME = 10000;
+        protected delegate void placeChanged(Luogo l);
+        private delegate void placeOnContinue(Luogo l);
+        private delegate void placeOnLongContinue(Luogo l);
 
-        protected void showInterfaces() {
 
+        private void showInterfaces() {
+            Luogo prevPlace = null;
+            Luogo currentPlace = null;
+            int inPlace = 0;
             while (true) {
                 WlanClient wc = WlanClient.getInstance();
+                currentPlace = Locator.locate();
+                if (inPlace == 10) { 
+                    //call delegate
+                    placeChanged(currentPlace);
+                }
+
+                //update Stats
+                if (inPlace % 10 != 0 && inPlace != 10) {
+                    placeOnContinue(currentPlace);
+                }
+                //update Stats
+                if (inPlace % 50)
+                {
+                    placeOnLongContinue(currentPlace);
+                }
+                //count times which consecutive find same place
+                if (currentPlace != null)
+                {
+                    if (currentPlace.Equals(prevPlace))
+                    {
+                        inPlace++;
+                    }
+                    else
+                    {
+                        inPlace = 1;
+                        prevPlace = currentPlace;
+                    }
+                }
+                else {
+                    prevPlace = currentPlace;
+                    inPlace = 1;
+                }
                 wc.Interfaces[0].Scan();
-                Thread.Sleep(10000);
+                Thread.Sleep(REFRESH_TIME);
             }
 
         }
         
+        public delegate void handler();
+
+        public void f(){
+            //if (sonosicuro) {
+            //    handler();
+            //}
+        
+        }
 
         protected override void OnStop()
         {
