@@ -44,6 +44,13 @@ namespace WiFiLoc_Service
             netwlist.acquireNetworkList();
         }
 
+        public override bool Equals(object obj)
+        {
+            Luogo l = (Luogo)obj;
+            if (l == null)
+                return false;
+            return (this.Id == l.Id && this.NomeLuogo == l.NomeLuogo);
+        }
 
         public string NomeLuogo {
             get{ return _nomeLuogo;

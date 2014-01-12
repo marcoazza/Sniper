@@ -33,7 +33,8 @@ namespace WiFiLoc_Service
                 foreach (Wlan.WlanBssEntry bssentry in bsss)
                 {
                     Network n= new Network();
-                    n.setNetwork( bssentry.getBssIdString(),bssentry.rssi);
+                    
+                    n.setNetwork( bssentry.getBssIdString(),bssentry.rssi,bssentry.getStringForSSID());
                     
                     _hash.Add(n.Mac,n);
 
