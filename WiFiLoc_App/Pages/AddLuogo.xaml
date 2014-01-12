@@ -22,17 +22,15 @@
                 </DataTemplate>
             </ListBox.ItemTemplate>
         </ListBox>
-        <Label Content="Custom Action" HorizontalAlignment="Left" Margin="69,187,0,0" VerticalAlignment="Top" Width="110" Height="25"/>
-        <ListBox x:Name="ListaAzioniLuogo" HorizontalAlignment="Left" Height="348" Margin="438,209,0,0" VerticalAlignment="Top" Width="285" BorderThickness="1" SelectionChanged="ListaAzioniLuogo_SelectionChanged">
+        <Label Content="Run Application" HorizontalAlignment="Left" Margin="69,187,0,0" VerticalAlignment="Top" Width="110" Height="25"/>
+        <ListBox x:Name="ListaAzioniLuogo" HorizontalAlignment="Left" Height="302" Margin="438,209,0,0" VerticalAlignment="Top" Width="285" BorderThickness="1" >
             <ListBox.ItemTemplate>
                 <DataTemplate>
                     <StackPanel Orientation="Vertical">
                         <StackPanel Orientation="Horizontal">
                             <Image Source="{Binding Path=icon}" Width="24" Height="24"></Image>
                             <TextBlock Text="{Binding Path=name}" Height="24" FontSize="18"></TextBlock>
-                            <TextBlock Text="X" Height="24" FontSize="18"></TextBlock>
-                            <Button x:Name="AggiungiAzioneButton" Content="x" FontWeight="Bold" HorizontalAlignment="Right" VerticalAlignment="Top" Width="33" Height="33"  Click="Remove_Click"
-                Style="{DynamicResource MetroCircleButtonStyle}" Foreground="#FF707070" HorizontalContentAlignment="Center"/>
+
                         </StackPanel>
                     </StackPanel>
                 </DataTemplate>
@@ -41,7 +39,6 @@
         <Label Content="Actions" HorizontalAlignment="Left" Margin="438,179,0,0" VerticalAlignment="Top" Width="127" Height="30"/>
         <Button x:Name="AggiungiAzioneButton" Content=">" FontWeight="Bold" HorizontalAlignment="Left" Margin="371,252,0,0" VerticalAlignment="Top" Width="40" Height="40" RenderTransformOrigin="0.477,0.039" Click="AggiungiAzioneButton_Click"
                 Style="{DynamicResource MetroCircleButtonStyle}" Foreground="#FF707070" HorizontalContentAlignment="Center"/>
-        <Button x:Name="Remove" Content=" - " HorizontalAlignment="Left" VerticalAlignment="Top" Width="30" Margin="619,143,0,0" Height="30" RenderTransformOrigin="0.4,1.9" Click="Remove_Click"/>
         <Button x:Name="AddCustomAction" Content="Add custom action" HorizontalAlignment="Left" Margin="112,532,0,0" VerticalAlignment="Top" Width="175" Click="AddCustomAction_Click"/>
         <Button x:Name="AggiungiLuogoButton" Content="Aggiungi" HorizontalAlignment="Left" Margin="551,53,0,0" VerticalAlignment="Top" Width="133" Height="65" Click="AggiungiLuogoButton_Click"/>
         <Label Content="Name: " HorizontalAlignment="Left" Margin="44,143,0,0" VerticalAlignment="Top" Width="60" controls:TextboxHelper.Watermark="This is a textbox"/>
@@ -64,5 +61,6 @@
         <Label Content="Firewall Action" HorizontalAlignment="Left" Margin="69,349,0,0" VerticalAlignment="Top" Width="110" Height="25"/>
         <Button x:Name="AggiungiAzioneButton_Copy" Content="&gt;&gt;" HorizontalAlignment="Left" Margin="371,430,0,0" VerticalAlignment="Top" Width="33" Height="33" RenderTransformOrigin="0.477,0.039" Click="AggiungiAzioneButton_Click"
         	Style="{DynamicResource MetroCircleButtonStyle}" Foreground="#FF707070"/>
+        <Button x:Name="removeAction" Content="Remove Action" HorizontalAlignment="Left" Margin="484,532,0,0" VerticalAlignment="Top" Width="175" Click="removeActionHandler"/>
     </Grid>
 </Page>

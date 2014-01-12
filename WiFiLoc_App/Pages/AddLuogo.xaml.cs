@@ -25,20 +25,45 @@ namespace WiFiLoc_App
     {
         private Luogo place;
         private WlanClient.WlanInterface wInterface = null;
-        public AddLuogo()
+        public AddLuogo( )
         {
             InitializeComponent();
             ThreadPool.QueueUserWorkItem(ActionManager.getInstalledSoftware, this.ListaAzioniPredefinite);
+            //NavigationService.LoadCompleted += new LoadCompletedEventHandler(handlerLoad);
 
+            place = new Luogo();
+        }
+        public AddLuogo(Luogo l)
+        {
+            InitializeComponent();
+            ThreadPool.QueueUserWorkItem(ActionManager.getInstalledSoftware, this.ListaAzioniPredefinite);
+            //NavigationService.LoadCompleted += new LoadCompletedEventHandler(handlerLoad);
+
+            place = new Luogo();
+        }
+
+        void NavigationService_LoadCompleted(object sender, NavigationEventArgs e)
+        {
+
+            place = (Luogo)e.ExtraData;
+            //foreach (ActionList.Action a in place.ActionsList.GetAll())
+            //{
+            //    ListaAzioniLuogo.Items.Add(ActionManager.getAssociatedItem(a.Path));
+
+            //}
         }
 
         private void AggiungiAzioneButton_Click(object sender, RoutedEventArgs e)
         {
-            //get selected item from ListaAzioniPredefinite
-            ActionManager.itemApp selectedItem = (ActionManager.itemApp)ListaAzioniPredefinite.SelectedItem;
 
-            //add item to AzioniLuogo
-            ListaAzioniLuogo.Items.Add(new ActionManager.itemApp { applicazione = selectedItem.applicazione, icon = selectedItem.icon, name = selectedItem.name });
+            if (ListaAzioniPredefinite.SelectedItem != null)
+            {
+                //get selected item from ListaAzioniPredefinite
+                ActionManager.itemApp selectedItem = (ActionManager.itemApp)ListaAzioniPredefinite.SelectedItem;
+                ListaAzioniPredefinite.Items.Remove(selectedItem);
+                //add item to AzioniLuogo
+                ListaAzioniLuogo.Items.Add(new ActionManager.itemApp { applicazione = selectedItem.applicazione, icon = selectedItem.icon, name = selectedItem.name, type = "app" });
+            }
         }
 
         private void AggiungiLuogoButton_Click(object sender, RoutedEventArgs e)
@@ -50,9 +75,8 @@ namespace WiFiLoc_App
             }
             else
             {
-                WiFiLoc_Service.Luogo l = new Luogo(nome);
-                l.ActionsList.SaveActions(ActionManager.SaveActions(ListaAzioniLuogo.Items));
-                this.place = l;
+                place.ActionsList.SaveActions(ActionManager.SaveActions(ListaAzioniLuogo.Items));
+                place.NomeLuogo = nome;
                 scanAndSave();
             }
         }
@@ -86,19 +110,32 @@ namespace WiFiLoc_App
                 string s = customAct.ActionPath.Text;
                 string n = System.IO.Path.GetFileNameWithoutExtension(s);
                 String icon = "\\images\\action_icon.png";
-                ListaAzioniLuogo.Items.Add(new ActionManager.itemApp { applicazione = s, icon = icon, name = n });
+                ListaAzioniLuogo.Items.Add(new ActionManager.itemApp { applicazione = s, icon = icon, name = n, type="custom" });
 
             }
         }
+
 
         private void Remove_Click(object sender, RoutedEventArgs e)
         {
             ListaAzioniLuogo.Items.Remove(ListaAzioniLuogo.SelectedItem);
         }
 
-        private void ListaAzioniLuogo_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void removeActionHandler(object sender, RoutedEventArgs e)
         {
+            ActionManager.itemApp selectedItem = (ActionManager.itemApp)ListaAzioniLuogo.SelectedItem;
+            if (selectedItem != null)
+            {
+                if (selectedItem.type == "app")
+                {
+                    ListaAzioniPredefinite.Items.Add(selectedItem);
+                }
+                ListaAzioniLuogo.Items.Remove(ListaAzioniLuogo.SelectedItem);
+
+                    
+            }
 
         }
+
     }
 }

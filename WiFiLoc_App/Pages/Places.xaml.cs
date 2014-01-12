@@ -53,13 +53,19 @@ namespace WiFiLoc_App.Pages
             {
                 Luogo.removeLuogoFromDB(eracePlace);
             }
-        
-
+            placesList.Items.Clear();
+            ThreadPool.QueueUserWorkItem(this.retrievePlaces);
         }
 
         private void modify(object sender, RoutedEventArgs e)
         {
-
+            //this.NavigationService.Navigate( new Uri(), placesList.SelectedItem)
+            if (placesList.SelectedItem != null) {
+                string placeName = (string)placesList.SelectedItem;
+                Luogo l = Luogo.getLuogo((string)placesList.SelectedItem);
+                //this.NavigationService.Navigate(new Uri("Pages/AddLuogo.xaml", UriKind.Relative), l);
+                this.NavigationService.Navigate(new AddLuogo(l));
+            }
         }
     }
 }

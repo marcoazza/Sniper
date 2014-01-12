@@ -122,6 +122,64 @@ namespace WiFiLoc_Service
 
         }
 
+
+        public static Luogo getLuogo(string name)
+        {
+            ArrayList luoghi = new ArrayList();
+            SqlCeConnection sc = DBconnection.getDBConnection();
+            sc.Open();
+
+            LocalAppDBDataSet lds = new LocalAppDBDataSet();
+            SqlCeDataAdapter sdaL = new SqlCeDataAdapter("SELECT * FROM Luogo WHERE luogo='"+name+"'", sc);
+            SqlCeDataAdapter sdaS = new SqlCeDataAdapter("SELECT * FROM Segnale", sc);
+            SqlCeDataAdapter sdaA = new SqlCeDataAdapter("SELECT * FROM Azione", sc);
+
+            LocalAppDBDataSet.LuogoRow lr = lds.Luogo.NewLuogoRow();
+            //command to generate basic queries (INSERT,UPDATE,DELETE)
+            SqlCeCommandBuilder builderL = new SqlCeCommandBuilder(sdaL);
+            SqlCeCommandBuilder builderS = new SqlCeCommandBuilder(sdaS);
+            SqlCeCommandBuilder builderA = new SqlCeCommandBuilder(sdaA);
+
+            sdaL.Fill(lds, "Luogo");
+            sdaS.Fill(lds, "Segnale");
+            sdaA.Fill(lds, "Azione");
+            if (lds.Luogo.Rows.Count == 0) {
+                return null;
+            } 
+            DataRow dr = lds.Luogo.Rows[0];
+           
+                LocalAppDBDataSet.LuogoRow ldr = (LocalAppDBDataSet.LuogoRow)dr;
+                
+                Luogo possibile = new Luogo();
+                possibile.Id = ldr.id;
+                possibile.NomeLuogo = ldr.luogo;
+                possibile.Timestat = ldr.timestat;
+
+                //associate networks to Luogo
+                foreach (DataRow cr in dr.GetChildRows(lds.Relations["FK_Luogo_Segnale"]))
+                {
+
+                    LocalAppDBDataSet.SegnaleRow scr = (LocalAppDBDataSet.SegnaleRow)cr;
+                    Network n = new Network();
+                    n.setNetwork(scr.mac, (int)scr.potenza);
+                    possibile.netwlist.Hash.Add(n.Mac, n);
+                }
+                foreach (DataRow cr in dr.GetChildRows(lds.Relations["FK_Luogo_Azione"]))
+                {
+
+                    LocalAppDBDataSet.AzioneRow acr = (LocalAppDBDataSet.AzioneRow)cr;
+
+                    ActionList.Action a = new ActionList.Action(acr.azione);
+                    possibile.actionsList.AddAction(a);
+                }
+
+
+
+            return possibile;
+
+        }
+
+
         /// <summary>
         /// store place to database
         /// </summary>
@@ -494,6 +552,8 @@ namespace WiFiLoc_Service
 
             return;
         }
+
+
         private static void ChangePlaceAndName(Luogo placeToBeUpdated, string oldName)
         {
 

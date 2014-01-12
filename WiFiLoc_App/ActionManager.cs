@@ -28,6 +28,7 @@ namespace WiFiLoc_App
             public string applicazione { get; set; }
             public String icon { get; set; }
             public string name { get; set; }
+            public string type { get; set; }
         }
 
 
@@ -58,6 +59,7 @@ namespace WiFiLoc_App
         /// <param name="li"> list where item found will stored </param>
         public static void getInstalledSoftware(Object li)
         {
+            List<string> items= new List <string>();
             System.Windows.Controls.ListBox l = (System.Windows.Controls.ListBox)li;
             string rp = Environment.CurrentDirectory.ToString();
             System.IO.Directory.CreateDirectory(rp + "\\images\\");
@@ -82,7 +84,6 @@ namespace WiFiLoc_App
                             myArray[0] = l;
                             myArray[1] = sk.GetValue("");
                             string completePath = rp + "\\images\\" + System.IO.Path.GetFileNameWithoutExtension((string)sk.GetValue("")) + ".ico";
-                            Logger.log("sddas");
 
                             if(!System.IO.File.Exists(completePath)){
                                 try
@@ -98,7 +99,11 @@ namespace WiFiLoc_App
                             myArray[2] = rp + "\\images\\" + System.IO.Path.GetFileNameWithoutExtension((string)sk.GetValue("")) + ".ico";
                             myArray[3] = System.IO.Path.GetFileNameWithoutExtension((string)sk.GetValue(""));
 
-                            l.Dispatcher.BeginInvoke(new updateAppList(addItem), myArray);
+                            if (!items.Contains(myArray[1])) {
+                                l.Dispatcher.BeginInvoke(new updateAppList(addItem), myArray);
+                                items.Add((string)myArray[1]);
+                            }
+
                         }
                     }
                     catch (Exception ex)
