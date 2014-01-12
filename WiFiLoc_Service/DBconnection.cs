@@ -13,7 +13,7 @@ namespace WiFiLoc_App
     {
         public static SqlCeConnection getDBConnection(){
                     string dbfile = new System.IO.FileInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).DirectoryName + "\\dbLocale.sdf";
-                    SqlCeConnection connection = new SqlCeConnection("datasource=" + dbfile);
+                    SqlCeConnection connection = new SqlCeConnection("datasource=" + "c:\\Users\\SEVEN\\Desktop\\Sniper\\WiFiLoc_App\\bin\\Debug\\dbLocale.sdf");
                    // SqlConnection myConnection = new SqlConnection("server=PAOLOPC;Integrated Security=SSPI;database=LocalAppDB");
                     return connection;
         }

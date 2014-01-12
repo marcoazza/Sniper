@@ -16,6 +16,7 @@ using System.Threading;
 using System.Collections;
 using NativeWifi;
 using WiFiLoc_Service;
+using System.Data;
 namespace WiFiLoc_App
 {
     /// <summary>
@@ -25,6 +26,7 @@ namespace WiFiLoc_App
     {
         private Luogo place;
         private WlanClient.WlanInterface wInterface = null;
+        private bool modify = false;
         public AddLuogo( )
         {
             InitializeComponent();
@@ -38,8 +40,15 @@ namespace WiFiLoc_App
             InitializeComponent();
             ThreadPool.QueueUserWorkItem(ActionManager.getInstalledSoftware, this.ListaAzioniPredefinite);
             //NavigationService.LoadCompleted += new LoadCompletedEventHandler(handlerLoad);
+            foreach (ActionList.Action a in l.ActionsList.GetAll())
+            {
+                ListaAzioniLuogo.Items.Add(ActionManager.getAssociatedItem(a.Path));
+            }
 
-            place = new Luogo();
+            NomeLuogo.Text = l.NomeLuogo;
+            place = l;
+            modify = true;
+            AggiungiLuogoButton.Content = "Update";
         }
 
         void NavigationService_LoadCompleted(object sender, NavigationEventArgs e)
@@ -75,9 +84,17 @@ namespace WiFiLoc_App
             }
             else
             {
+                string oldname = place.NomeLuogo;
                 place.ActionsList.SaveActions(ActionManager.SaveActions(ListaAzioniLuogo.Items));
                 place.NomeLuogo = nome;
-                scanAndSave();
+                if (!modify)
+                {
+                    scanAndSave();
+                }
+                else {
+                    Luogo.ChangePlace(place, oldname);
+                }
+
             }
         }
 
@@ -94,7 +111,17 @@ namespace WiFiLoc_App
         {
             if (s.notificationCode == 7) {
                 wInterface.WlanNotification -= notify;
-                place.luogoToDB();
+                try {
+                    if(!place.checkIfNameExist())
+                        place.luogoToDB();
+                    else
+                        MessageBox.Show("Place already exist");
+                }
+                catch (ConstraintException e)
+                {
+                    MessageBox.Show("Error saving the new place");
+                } 
+                
             }
         }
 

@@ -24,23 +24,29 @@ namespace WiFiLoc_Service
         public void acquireNetworkList() {
 
             WlanClient client =  WlanClient.getInstance();
-            foreach (WlanClient.WlanInterface wlanIface in client.Interfaces)
+            try
             {
-               // wlanIface.Scan();
-                Wlan.WlanBssEntry[] bsss = wlanIface.GetNetworkBssList();
-                
-
-                foreach (Wlan.WlanBssEntry bssentry in bsss)
+                foreach (WlanClient.WlanInterface wlanIface in client.Interfaces)
                 {
-                    Network n= new Network();
-                    
-                    n.setNetwork( bssentry.getBssIdString(),bssentry.rssi,bssentry.getStringForSSID());
-                    
-                    _hash.Add(n.Mac,n);
+                    // wlanIface.Scan();
+                    Wlan.WlanBssEntry[] bsss = wlanIface.GetNetworkBssList();
+
+
+                    foreach (Wlan.WlanBssEntry bssentry in bsss)
+                    {
+                        Network n = new Network();
+
+                        n.setNetwork(bssentry.getBssIdString(), bssentry.rssi, bssentry.getStringForSSID());
+
+                        _hash.Add(n.Mac, n);
 
 
 
+                    }
                 }
+            }
+            catch { 
+                //unable to acquire networks
             }
         
         
