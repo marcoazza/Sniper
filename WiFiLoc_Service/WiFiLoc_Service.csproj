@@ -102,6 +102,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="StartProcess.cs" />
     <Compile Include="WiFiService.cs">
       <SubType>Component</SubType>
     </Compile>

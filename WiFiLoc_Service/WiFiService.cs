@@ -11,6 +11,8 @@ using System.Threading;
 using NativeWifi;
 using WiFiLoc_App;
 using Microsoft;
+using System.Runtime.InteropServices;
+using System.Security.Principal;
 
 namespace WiFiLoc_Service
 {
@@ -52,6 +54,7 @@ namespace WiFiLoc_Service
             startInfo.Arguments = "/C " + action;
             process.StartInfo = startInfo;
             try{
+                
                 process.Start();
             } catch{
                 return false;
@@ -60,9 +63,66 @@ namespace WiFiLoc_Service
             return true;
         }
 
+        private void CreateProcessAsUser(string action)
+        {
+            IntPtr hToken = WindowsIdentity.GetCurrent().Token;
+            IntPtr hDupedToken = IntPtr.Zero;
+
+            ProcessUtility.PROCESS_INFORMATION pi = new ProcessUtility.PROCESS_INFORMATION();
+
+            try
+            {
+                ProcessUtility.SECURITY_ATTRIBUTES sa = new ProcessUtility.SECURITY_ATTRIBUTES();
+                sa.Length = Marshal.SizeOf(sa);
+
+                bool result = ProcessUtility.DuplicateTokenEx(
+                      hToken,
+                      ProcessUtility.GENERIC_ALL_ACCESS,
+                      ref sa,
+                      (int)ProcessUtility.SECURITY_IMPERSONATION_LEVEL.SecurityIdentification,
+                      (int)ProcessUtility.TOKEN_TYPE.TokenPrimary,
+                      ref hDupedToken
+                   );
+
+                if (!result)
+                {
+                    throw new ApplicationException("DuplicateTokenEx failed");
+                }
+
+
+                ProcessUtility.STARTUPINFO si = new ProcessUtility.STARTUPINFO();
+                si.cb = Marshal.SizeOf(si);
+                si.lpDesktop = String.Empty;
+
+                result = ProcessUtility.CreateProcessAsUser(
+                                     hDupedToken,
+                                     @"" + action,
+                                     String.Empty,
+                                     ref sa, ref sa,
+                                     false, 0, IntPtr.Zero,
+                                     @"C:\" , ref si, ref pi
+                               );
+
+                if (!result)
+                {
+                    int error = Marshal.GetLastWin32Error();
+                    string message = String.Format("CreateProcessAsUser Error: {0}", error);
+                    throw new ApplicationException(message);
+                }
+            }
+            finally
+            {
+                if (pi.hProcess != IntPtr.Zero)
+                    ProcessUtility.CloseHandle(pi.hProcess);
+                if (pi.hThread != IntPtr.Zero)
+                    ProcessUtility.CloseHandle(pi.hThread);
+                if (hDupedToken != IntPtr.Zero)
+                    ProcessUtility.CloseHandle(hDupedToken);
+            }
+        }
         private void launchActions(Luogo l ) {
             foreach (ActionList.Action a in l.ActionsList.GetAll()) {
-                launchAction(a.Path);
+                CreateProcessAsUser(a.Path);
             }
             return;
         }
