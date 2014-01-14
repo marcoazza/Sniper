@@ -31,10 +31,30 @@ namespace WiFiLoc_App.Pages
         public Home()
         {
             InitializeComponent();
+            this.currentPlaceLabel.Content = FAIL_LOCATE;
             currentPlaceLabel.Content = currentPlaceValue;
-            ThreadPool.QueueUserWorkItem(this.locate);
+            //ThreadPool.QueueUserWorkItem(this.locate);
+            BackGroundWork.onScan b;
+            BackGroundWork.PlaceChanged ocplace;
+            b = onScanHandler;
+            ocplace = onChangePlaceHandler;
+            BackGroundWork.registerHandlers(b, ocplace);
+        }
 
 
+        private void onScanHandler( NetworkList nwlist)
+        {
+             DelNetList dlgNetList = updateNetWorkList;
+            NetworkList.Dispatcher.BeginInvoke(dlgNetList, nwlist);
+        }
+
+        private void onChangePlaceHandler(Luogo l)
+        {
+            Del dlgLabel = updateLabel;
+            if (l != null)
+            {
+                currentPlaceLabel.Dispatcher.BeginInvoke(dlgLabel, l.NomeLuogo);
+            }
         }
 
         public delegate void Del(string message);

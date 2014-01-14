@@ -89,10 +89,13 @@ namespace WiFiLoc_App
                 place.NomeLuogo = nome;
                 if (!modify)
                 {
-                    scanAndSave();
+                    if(!place.checkIfNameExist())
+                        scanAndSave();
+                    else 
+                        MessageBox.Show("Place already exist");
                 }
                 else {
-                    Luogo.ChangePlace(place, oldname);
+                    Luogo.updatePlace(place, oldname);
                 }
 
             }
@@ -110,12 +113,16 @@ namespace WiFiLoc_App
         public void notify(Wlan.WlanNotificationData s)
         {
             if (s.notificationCode == 7) {
+                place.saveNextList();
                 wInterface.WlanNotification -= notify;
                 try {
-                    if(!place.checkIfNameExist())
+                    if ( place.NetwList.Hash.Count != 0)
+
                         place.luogoToDB();
-                    else
-                        MessageBox.Show("Place already exist");
+                    else {
+                             MessageBox.Show("Cannot find informations here!");           
+                    }
+                       
                 }
                 catch (ConstraintException e)
                 {

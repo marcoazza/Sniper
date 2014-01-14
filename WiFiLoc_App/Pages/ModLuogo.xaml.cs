@@ -57,7 +57,7 @@ namespace WiFiLoc_App.Pages
             {
                 Luogo l = new Luogo(NomeLuogo.Text);
                 l.ActionsList.SaveActions(ActionManager.SaveActions(ListaAzioniLuogo.Items));
-                Luogo.ChangePlace(l,(string)LuoghiSalvati.SelectedItem);
+                Luogo.updatePlace(l,(string)LuoghiSalvati.SelectedItem);
             }
         }
 

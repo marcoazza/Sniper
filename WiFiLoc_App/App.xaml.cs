@@ -5,6 +5,7 @@ using System.Data;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Threading;
 
 namespace WiFiLoc_App
 {
@@ -13,5 +14,15 @@ namespace WiFiLoc_App
     /// </summary>
     public partial class App : Application
     {
+        void App_Startup(object sender, StartupEventArgs e)
+        {
+            Thread m_thread;
+            ThreadStart ts = new ThreadStart(BackGroundWork.start);
+            m_thread = new Thread(ts);
+            m_thread.Start();
+            // Create main application window, starting minimized if specified
+        }
+
+
     }
 }

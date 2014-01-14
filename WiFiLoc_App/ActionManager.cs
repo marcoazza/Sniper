@@ -92,7 +92,6 @@ namespace WiFiLoc_App
                                 }
                                 catch (Exception e)
                                 {
-                                    Logger.log(e.Message);
                                 }
                             }
 
@@ -109,7 +108,6 @@ namespace WiFiLoc_App
                     catch (Exception ex)
                     {
                         //No, that exception is not getting away
-                        Logger.log(ex.Message);
                     }
                 }
             }
