@@ -97,6 +97,7 @@ namespace WiFiLoc_App
 
         private void exitApplication(object sender, EventArgs arg)
         {
+            ni.Visible = false;
             System.Windows.Application.Current.Shutdown();
             closing = true;
 

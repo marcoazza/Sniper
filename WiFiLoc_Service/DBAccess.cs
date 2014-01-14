@@ -4,18 +4,33 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Data.SqlServerCe;
 
 namespace WiFiLoc_App
 {
     public class DBAccess
     {
-        public static void addNewLuogo(string nome) {
-            WiFiLoc_Service.Luogo l = new WiFiLoc_Service.Luogo(nome);
-            l.luogoToDB();
+        static private DBAccess instance = null ;
+
+        private SqlCeConnection connection = null;
+
+        private DBAccess() {
+            string dbfile = new System.IO.FileInfo(System.Reflection.Assembly.GetExecutingAssembly().Location).DirectoryName + "\\dbLocale.sdf";
+            connection = new SqlCeConnection("datasource=" + "c:\\Users\\SEVEN\\Desktop\\Sniper\\WiFiLoc_App\\bin\\Debug\\dbLocale.sdf");
         }
 
-        public static ArrayList getLuoghi() {
-            return WiFiLoc_Service.Luogo.getPossibiliLuoghi();
+        public static DBAccess getInstance() {
+            if (instance == null)
+                instance = new DBAccess();
+            return instance;
         }
+
+        public SqlCeConnection getConnection(){
+            return connection;
+        }
+
+        
+    
     }
+
 }

@@ -26,16 +26,16 @@ namespace WiFiLoc_App.Pages
         public RemoveLuogo()
         {
             InitializeComponent();
-            ArrayList listLuoghi = DBAccess.getLuoghi();
-            if(listLuoghi.Count > 0){
-                foreach (Luogo l in listLuoghi)
-                {
-                    LuoghiSalvati.Items.Add(l.NomeLuogo);
-                }
-            }
-            else{
+            //ArrayList listLuoghi = Luogo.getLuoghi();
+        //    if(listLuoghi.Count > 0){
+        //        foreach (Luogo l in listLuoghi)
+        //        {
+        //            LuoghiSalvati.Items.Add(l.NomeLuogo);
+        //        }
+        //    }
+        //    else{
 
-            }
+        //    }
         }
     }
 }

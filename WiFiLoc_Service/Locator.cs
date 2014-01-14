@@ -144,7 +144,9 @@ namespace WiFiLoc_Service
             ArrayList commonAPs = getCommonAPs(placeToBeLocated, savedPlace);
             double savedPlaceAPNum = savedPlace.NetwList.Hash.Count;
             double commonAPNum = commonAPs.Count;
-            return (savedPlaceAPNum - (savedPlaceAPNum - commonAPNum)) / savedPlaceAPNum;
+            if(savedPlaceAPNum != 0)
+                return (savedPlaceAPNum - (savedPlaceAPNum - commonAPNum)) / savedPlaceAPNum;
+            return 0;
         }
 
         private static double getAPNewConfidence(Luogo placeToBeLocated, Luogo savedPlace)

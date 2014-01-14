@@ -21,6 +21,8 @@ namespace WiFiLoc_Service
         int _id;
         NetworkList netwlist;
         ActionList actionsList;
+        static SqlCeConnection sc = DBAccess.getInstance().getConnection();
+
 
 
         public Luogo()
@@ -98,7 +100,6 @@ namespace WiFiLoc_Service
         public static ArrayList getPossibiliLuoghi()
         {
             ArrayList luoghi= new ArrayList();
-            SqlCeConnection sc = DBconnection.getDBConnection();
             sc.Open();
 
             LocalAppDBDataSet lds = new LocalAppDBDataSet();
@@ -144,6 +145,7 @@ namespace WiFiLoc_Service
 
                 luoghi.Add(possibile);
             }
+            sc.Close();
 
             return luoghi;
 
@@ -158,7 +160,6 @@ namespace WiFiLoc_Service
         public static Luogo getLuogo(string name)
         {
             ArrayList luoghi = new ArrayList();
-            SqlCeConnection sc = DBconnection.getDBConnection();
             sc.Open();
 
             LocalAppDBDataSet lds = new LocalAppDBDataSet();
@@ -206,7 +207,7 @@ namespace WiFiLoc_Service
                 }
 
 
-
+                sc.Close();
             return possibile;
 
         }
@@ -218,7 +219,6 @@ namespace WiFiLoc_Service
         public void luogoToDB()
         {
 
-            SqlCeConnection sc = DBconnection.getDBConnection();
             sc.Open();
 
             LocalAppDBDataSet lds = new LocalAppDBDataSet();
@@ -293,6 +293,7 @@ namespace WiFiLoc_Service
                 st.Rollback();
                 throw e;
             }
+            sc.Close();
 
         }
 
@@ -303,7 +304,6 @@ namespace WiFiLoc_Service
         public static void removeLuogoFromDB(string luogo)
         {
             ArrayList luoghi = new ArrayList();
-            SqlCeConnection sc = DBconnection.getDBConnection();
             sc.Open();
             
             LocalAppDBDataSet lds = new LocalAppDBDataSet();
@@ -374,7 +374,7 @@ namespace WiFiLoc_Service
                 st.Rollback();
                 throw e;
             }
-
+            sc.Close();
             return;
         }
 
@@ -383,9 +383,7 @@ namespace WiFiLoc_Service
         /// </summary>
         /// <returns> return true  if present, false otherwise </returns>
         public bool checkIfNameExist(){
-            SqlCeConnection sc = DBconnection.getDBConnection();
             sc.Open();
-            //SqlConnection scS = DBconnection.getDBConnection();
             LocalAppDBDataSet lds = new LocalAppDBDataSet();
             SqlCeDataAdapter sdaL = new SqlCeDataAdapter("SELECT id,luogo FROM Luogo", sc);
             SqlCeDataAdapter sdaS = new SqlCeDataAdapter("SELECT * FROM Segnale", sc);
@@ -405,7 +403,7 @@ namespace WiFiLoc_Service
             if (sdr.Read()) {
                 i = sdr.GetInt32(0);
             }
-
+            sc.Close();
         return i!=0;
         }
 
@@ -419,7 +417,6 @@ namespace WiFiLoc_Service
             if (placeToBeUpdated.NomeLuogo != null && placeToBeUpdated.NomeLuogo != "" && placeToBeUpdated.checkIfNameExist())
             {
                 ArrayList luoghi = new ArrayList();
-                SqlCeConnection sc = DBconnection.getDBConnection();
                 sc.Open();
 
                 LocalAppDBDataSet lds = new LocalAppDBDataSet();
@@ -507,7 +504,7 @@ namespace WiFiLoc_Service
         /// <summary>
         /// update place name or place actions
         /// </summary>
-        public static void ChangePlace(Luogo placeToBeUpdated,string oldName)
+        public static void updatePlace(Luogo placeToBeUpdated,string oldName)
         {
 
             if (placeToBeUpdated.NomeLuogo == oldName)
@@ -531,7 +528,6 @@ namespace WiFiLoc_Service
             if (placeToBeUpdated.NomeLuogo != null && placeToBeUpdated.NomeLuogo != "")
             {
 
-                SqlCeConnection sc = DBconnection.getDBConnection();
                 sc.Open();
 
                 LocalAppDBDataSet lds = new LocalAppDBDataSet();
@@ -599,7 +595,8 @@ namespace WiFiLoc_Service
             }
                 
                 }
-
+            
+            sc.Close();
         return;
         }
 
@@ -614,7 +611,6 @@ namespace WiFiLoc_Service
             if (placeToBeUpdated.NomeLuogo != null && placeToBeUpdated.NomeLuogo != "" && !placeToBeUpdated.checkIfNameExist())
             {
                 ArrayList luoghi = new ArrayList();
-                SqlCeConnection sc = DBconnection.getDBConnection();
                 sc.Open();
 
                 LocalAppDBDataSet lds = new LocalAppDBDataSet();
@@ -687,6 +683,7 @@ namespace WiFiLoc_Service
                 throw e;
             }
             }
+            sc.Close();
             return;
         }
 
@@ -697,7 +694,6 @@ namespace WiFiLoc_Service
         /// <returns>total time in place</returns>
         public long UpdateStats(int newStat)
         {
-            SqlCeConnection sc = DBconnection.getDBConnection();
             sc.Open();
             LocalAppDBDataSet lds = new LocalAppDBDataSet();
             SqlCeDataAdapter sdaL = new SqlCeDataAdapter("SELECT * FROM Luogo WHERE luogo='" + this._nomeLuogo + "'", sc);
@@ -726,6 +722,7 @@ namespace WiFiLoc_Service
                 st.Rollback();
                 throw e;
             }
+            sc.Close();
             return totTime;
         }
     }

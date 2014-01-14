@@ -66,12 +66,12 @@ namespace WiFiLoc_App
                 }
 
                 //update Stats
-                if (inPlace % 10 != 0 && inPlace != 10)
+                if (inPlace % 10 == 0 && inPlace != 10 && inPlace != 0)
                 {
                     poc(currentPlace);
                 }
                 //update Stats
-                if (inPlace % 50 == 0)
+                if (inPlace % 50 == 0 && inPlace != 0)
                 {
                     //polc(currentPlace);
                 }
@@ -103,10 +103,13 @@ namespace WiFiLoc_App
 
         private static void launchActions(Luogo l)
         {
-            foreach (ActionList.Action a in l.ActionsList.GetAll())
-            {
-                launchAction(a.Path);
+            if (l != null) {
+                foreach (ActionList.Action a in l.ActionsList.GetAll())
+                {
+                    launchAction(a.Path);
+                }
             }
+
             return;
         }
 

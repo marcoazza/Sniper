@@ -25,14 +25,12 @@ namespace WiFiLoc_App.Pages
     public partial class Home : Page
     {
         const string FAIL_LOCATE= "I'm lost.... :(";
-        string currentPlaceValue = "";
         Luogo currentPlace = null;
 
         public Home()
         {
             InitializeComponent();
             this.currentPlaceLabel.Content = FAIL_LOCATE;
-            currentPlaceLabel.Content = currentPlaceValue;
             //ThreadPool.QueueUserWorkItem(this.locate);
             BackGroundWork.onScan b;
             BackGroundWork.PlaceChanged ocplace;
@@ -54,6 +52,9 @@ namespace WiFiLoc_App.Pages
             if (l != null)
             {
                 currentPlaceLabel.Dispatcher.BeginInvoke(dlgLabel, l.NomeLuogo);
+            }
+            else {
+                currentPlaceLabel.Dispatcher.BeginInvoke(dlgLabel, FAIL_LOCATE);
             }
         }
 
