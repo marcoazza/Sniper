@@ -73,6 +73,8 @@ namespace WiFiLoc_Service
             get { return netwlist; }
         }
 
+        
+
         /// <summary>
         /// get place actions list
         /// </summary>
@@ -692,7 +694,7 @@ namespace WiFiLoc_Service
         /// </summary>
         /// <param name="newStat">last interval time in place</param>
         /// <returns>total time in place</returns>
-        public long UpdateStats(int newStat)
+        public long UpdateStats(int incTime)
         {
             sc.Open();
             LocalAppDBDataSet lds = new LocalAppDBDataSet();
@@ -710,8 +712,8 @@ namespace WiFiLoc_Service
                 DataRow dr = lds.Luogo.Rows[0];
                 LocalAppDBDataSet.LuogoRow ldr = (LocalAppDBDataSet.LuogoRow)dr;
                 totTime = ldr.timestat;
-                ldr.timestat += newStat;
-                totTime += newStat;
+                ldr.timestat += incTime;
+                totTime += incTime;
                 int rowUpdated = sdaL.Update(lds,"Luogo");
                 lds.Luogo.AcceptChanges();
                 st.Commit();

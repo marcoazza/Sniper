@@ -150,7 +150,7 @@ namespace WiFiLoc_App
                     _mainFrame.NavigationService.Navigate(new Uri("Pages/Places.xaml", UriKind.Relative));
                     break;
                 case "Stats":
-                    _mainFrame.NavigationService.Navigate(new Uri("Pages/ModLuogo.xaml", UriKind.Relative));
+                    _mainFrame.NavigationService.Navigate(new Uri("Pages/Stats.xaml", UriKind.Relative));
                     break;
             
             }
