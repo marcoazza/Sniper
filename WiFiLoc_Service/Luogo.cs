@@ -21,7 +21,7 @@ namespace WiFiLoc_Service
         int _id;
         NetworkList netwlist;
         ActionList actionsList;
-        static SqlCeConnection sc = DBAccess.getInstance().getConnection();
+        SqlCeConnection sc = null;
 
 
 
@@ -30,6 +30,7 @@ namespace WiFiLoc_Service
             netwlist = new NetworkList();
             actionsList = new ActionList();
             Timestat = 0;
+            sc = ConnectionHub.Connection;
 
         }
 
@@ -39,6 +40,7 @@ namespace WiFiLoc_Service
             netwlist.acquireNetworkList();
             _nomeLuogo = luogo;
             Timestat = 0;
+            sc = ConnectionHub.Connection;
         }
 
 
@@ -102,6 +104,8 @@ namespace WiFiLoc_Service
         public static ArrayList getPossibiliLuoghi()
         {
             ArrayList luoghi= new ArrayList();
+            SqlCeConnection sc = ConnectionHub.Connection;
+            sc = ConnectionHub.Connection;
             sc.Open();
 
             LocalAppDBDataSet lds = new LocalAppDBDataSet();
@@ -162,6 +166,7 @@ namespace WiFiLoc_Service
         public static Luogo getLuogo(string name)
         {
             ArrayList luoghi = new ArrayList();
+            SqlCeConnection sc = ConnectionHub.Connection;
             sc.Open();
 
             LocalAppDBDataSet lds = new LocalAppDBDataSet();
@@ -306,6 +311,7 @@ namespace WiFiLoc_Service
         public static void removeLuogoFromDB(string luogo)
         {
             ArrayList luoghi = new ArrayList();
+            SqlCeConnection sc = ConnectionHub.Connection;
             sc.Open();
             
             LocalAppDBDataSet lds = new LocalAppDBDataSet();
@@ -525,7 +531,7 @@ namespace WiFiLoc_Service
         /// <param name="oldName">old place name</param>
         private static void ChangeActions(Luogo placeToBeUpdated, string oldName)
         {
-
+            SqlCeConnection sc = ConnectionHub.Connection;
             if (placeToBeUpdated.NomeLuogo != null && placeToBeUpdated.NomeLuogo != "")
             {
 
@@ -608,7 +614,7 @@ namespace WiFiLoc_Service
         /// <param name="oldName">old place name</param>
         private static void ChangePlaceAndName(Luogo placeToBeUpdated, string oldName)
         {
-
+            SqlCeConnection sc = ConnectionHub.Connection;
             if (placeToBeUpdated.NomeLuogo != null && placeToBeUpdated.NomeLuogo != "" && !placeToBeUpdated.checkIfNameExist())
             {
                 ArrayList luoghi = new ArrayList();

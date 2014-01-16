@@ -124,6 +124,7 @@
     </Compile>
     <Compile Include="ActionList.cs" />
     <Compile Include="BackGroundWork.cs" />
+    <Compile Include="ConnectionHub.cs" />
     <Compile Include="CustomActionWindow.xaml.cs">
       <DependentUpon>CustomActionWindow.xaml</DependentUpon>
     </Compile>
