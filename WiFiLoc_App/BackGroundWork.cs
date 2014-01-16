@@ -39,8 +39,11 @@ namespace WiFiLoc_App
 
             pc += launchActions;
             poc += updateStats;
+            polc += updatePlace;
+
 
             int inPlace = 0;
+            int notInPlace = 0;
             while (true)
             {
                 placeToLocate = new Luogo();
@@ -71,9 +74,9 @@ namespace WiFiLoc_App
                     poc(currentPlace);
                 }
                 //update Stats
-                if (inPlace % 50 == 0 && inPlace != 0)
+                if (inPlace % 10 == 0 && inPlace != 0)
                 {
-                    //polc(currentPlace);
+                    polc(currentPlace);
                 }
                 //count times which consecutive find same place
                 if (currentPlace != null)
@@ -81,20 +84,32 @@ namespace WiFiLoc_App
                     if (currentPlace.Equals(prevPlace))
                     {
                         inPlace++;
+                        notInPlace = 0;
                     }
                     else
                     {
-                        inPlace = 1;
-                        prevPlace = currentPlace;
+                       notInPlace++;
                     }
                 }
                 else
                 {
-                    prevPlace = currentPlace;
-                    inPlace = 1;
+                    notInPlace++;
                 }
+
+                if (notInPlace == 3 && inPlace > 3 ) {
+                    notInPlace = 0;
+                    inPlace = 1;
+                    prevPlace = currentPlace;
+                }
+                if (inPlace < 3) {
+                    prevPlace = currentPlace;
+                    notInPlace = 0;
+                }
+
+
                 if (wc.Interfaces.Length != 0)
                     wc.Interfaces[0].Scan();
+
                 Thread.Sleep(REFRESH_TIME);
             }
 
@@ -139,6 +154,10 @@ namespace WiFiLoc_App
             }
 
             return true;
+        }
+
+        private static void updatePlace(Luogo l) {
+            l.UpdatePlacePosition();
         }
     }
 

@@ -19,6 +19,7 @@ namespace WiFiLoc_App
             Thread m_thread;
             ThreadStart ts = new ThreadStart(BackGroundWork.start);
             m_thread = new Thread(ts);
+            m_thread.IsBackground = true;
             m_thread.Start();
             // Create main application window, starting minimized if specified
         }

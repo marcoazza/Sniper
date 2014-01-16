@@ -412,11 +412,10 @@ namespace WiFiLoc_Service
         /// <summary>
         /// update place s networks
         /// </summary>
-        public static void UpdatePlacePosition(string placeName) {
-            Luogo placeToBeUpdated = new Luogo();
-            placeToBeUpdated.NomeLuogo = placeName;
-            placeToBeUpdated.NetwList.acquireNetworkList();
-            if (placeToBeUpdated.NomeLuogo != null && placeToBeUpdated.NomeLuogo != "" && placeToBeUpdated.checkIfNameExist())
+        public void UpdatePlacePosition() {
+            
+
+            if (this.NomeLuogo != null && this.NomeLuogo != "" && this.checkIfNameExist())
             {
                 ArrayList luoghi = new ArrayList();
                 sc.Open();
@@ -433,10 +432,10 @@ namespace WiFiLoc_Service
                     sdaL.Fill(lds, "Luogo");
                     sdaS.Fill(lds, "Segnale");
                 
-                    SqlCeCommand sqlcom = new SqlCeCommand("SELECT id FROM Luogo WHERE luogo='" + placeToBeUpdated.NomeLuogo + "'", sc);
+                    SqlCeCommand sqlcom = new SqlCeCommand("SELECT id FROM Luogo WHERE luogo='" + this.NomeLuogo + "'", sc);
                     SqlCeDataReader sdr = sqlcom.ExecuteReader();
                     sdr.Read();
-                    placeToBeUpdated.Id = sdr.GetInt32(0);
+                    this.Id = sdr.GetInt32(0);
 
                     sdr.Close();
                
@@ -444,7 +443,7 @@ namespace WiFiLoc_Service
                     {
 
                         LocalAppDBDataSet.LuogoRow ldr = (LocalAppDBDataSet.LuogoRow)dr;
-                        if (ldr.id == placeToBeUpdated.Id)
+                        if (ldr.id == this.Id)
                         {
 
                             // mark as removed signals
@@ -459,7 +458,7 @@ namespace WiFiLoc_Service
 
                             }
                             //add networks to table Segnale
-                            foreach (DictionaryEntry de in placeToBeUpdated.NetwList.Hash)
+                            foreach (DictionaryEntry de in this.NetwList.Hash)
                             {
                                 Network n = new Network();
                                 n = de.Value as Network;
@@ -472,7 +471,7 @@ namespace WiFiLoc_Service
                                 {
                                     LocalAppDBDataSet.SegnaleRow sr = lds.Segnale.NewSegnaleRow();
                                     sr.mac = n.Mac;
-                                    sr.id_luogo = placeToBeUpdated.Id;
+                                    sr.id_luogo = this.Id;
                                     sr.potenza = (int)n.Potenza;
                                     lds.Segnale.Rows.Add(sr);
                                 }

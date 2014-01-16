@@ -9,7 +9,18 @@
 
     <Grid>
            <DVC:Chart Canvas.Top="0" Canvas.Left="0" Name="mcChart"
-           Background="#00B0C4DE" Margin="40,0,333,262" BorderThickness="0" Width="400" Height="250">
+           Background="#00B0C4DE" Margin="40,0,333,262" BorderThickness="0" Width="400" Height="250" LegendTitle="Places">
+            <DVC:Chart.PlotAreaStyle>
+                <Style TargetType="Grid">
+                    <Setter Property="Background" Value="Transparent"/>
+                </Style>
+            </DVC:Chart.PlotAreaStyle>
+            <DVC:Chart.Style>
+                <Style TargetType="DVC:Chart">
+                    <Setter Property="BorderBrush" Value="Transparent"/>
+                </Style>
+
+            </DVC:Chart.Style>   
             <DVC:Chart.Series>
                 <DVC:PieSeries Title="Experience" 
             IndependentValueBinding="{Binding Path=Key}"

@@ -116,7 +116,7 @@ namespace WiFiLoc_App
         {
             if (NomeLuogoAggiornare.Text != "")
             {
-                Luogo.UpdatePlacePosition(NomeLuogoAggiornare.Text);
+               
             }
             else {
                 MessageBox.Show("inserisci un nome per aggiornare");
