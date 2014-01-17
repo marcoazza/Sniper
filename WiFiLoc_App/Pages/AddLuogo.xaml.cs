@@ -15,7 +15,7 @@ using System.Windows.Shapes;
 using System.Threading;
 using System.Collections;
 using NativeWifi;
-using WiFiLoc_Service;
+using WiFiLoc_App;
 using System.Data;
 namespace WiFiLoc_App
 {
@@ -32,7 +32,9 @@ namespace WiFiLoc_App
             InitializeComponent();
             ThreadPool.QueueUserWorkItem(ActionManager.getInstalledSoftware, this.ListaAzioniPredefinite);
             //NavigationService.LoadCompleted += new LoadCompletedEventHandler(handlerLoad);
-
+            foreach (DictionaryEntry d in ActionManager.getFirewallRules()) {
+                ListaAzioniFirewall.Items.Add(ActionManager.getFirewallItem(d.Value.ToString(), d.Key.ToString()));
+            }
             place = new Luogo();
         }
         public AddLuogo(Luogo l)
@@ -40,6 +42,10 @@ namespace WiFiLoc_App
             InitializeComponent();
             ThreadPool.QueueUserWorkItem(ActionManager.getInstalledSoftware, this.ListaAzioniPredefinite);
             //NavigationService.LoadCompleted += new LoadCompletedEventHandler(handlerLoad);
+            foreach (DictionaryEntry d in ActionManager.getFirewallRules())
+            {
+                ListaAzioniFirewall.Items.Add(ActionManager.getFirewallItem(d.Value.ToString(), d.Key.ToString()));
+            }
             foreach (ActionList.Action a in l.ActionsList.GetAll())
             {
                 ListaAzioniLuogo.Items.Add(ActionManager.getAssociatedItem(a.Path));
@@ -72,6 +78,19 @@ namespace WiFiLoc_App
                 ListaAzioniPredefinite.Items.Remove(selectedItem);
                 //add item to AzioniLuogo
                 ListaAzioniLuogo.Items.Add(new ActionManager.itemApp { applicazione = selectedItem.applicazione, icon = selectedItem.icon, name = selectedItem.name, type = "app" });
+            }
+        }
+
+        private void AggiungiAzioneFirewallButton_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (ListaAzioniFirewall.SelectedItem != null)
+            {
+                //get selected item from ListaAzioniPredefinite
+                ActionManager.itemApp selectedItem = (ActionManager.itemApp)ListaAzioniFirewall.SelectedItem;
+                ListaAzioniFirewall.Items.Remove(selectedItem);
+                //add item to AzioniLuogo
+                ListaAzioniLuogo.Items.Add(new ActionManager.itemApp { applicazione = selectedItem.applicazione, icon = selectedItem.icon, name = selectedItem.name, type = "firewall" });
             }
         }
 
@@ -164,6 +183,11 @@ namespace WiFiLoc_App
                 {
                     ListaAzioniPredefinite.Items.Add(selectedItem);
                 }
+                if (selectedItem.type == "firewall")
+                {
+                    ListaAzioniFirewall.Items.Add(selectedItem);
+                }
+
                 ListaAzioniLuogo.Items.Remove(ListaAzioniLuogo.SelectedItem);
 
                     

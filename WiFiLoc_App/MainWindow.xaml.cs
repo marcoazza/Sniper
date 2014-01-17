@@ -17,7 +17,6 @@ using System.Data;
 using System.Data.Common;
 using System.Data.SqlClient;
 using WiFiLoc_App;
-using WiFiLoc_Service;
 using WiFiLoc_App.Menu;
 using MahApps.Metro;
 using MahApps.Metro.Controls;
@@ -26,7 +25,6 @@ using System.Drawing;
 using System.Threading;
 using System.ComponentModel;
 using System.Windows.Forms;
-using System.Windows;
 namespace WiFiLoc_App
 {
     /// <summary>
@@ -54,13 +52,13 @@ namespace WiFiLoc_App
                ToolStripItem show = contextMenu.Items.Add("S&how interface");
                ToolStripItem exit = contextMenu.Items.Add("E&xit");
 
-
                show.Click += showInterface;
                exit.Click += exitApplication;
-
+            
 
                ni = new System.Windows.Forms.NotifyIcon();
                ni.ContextMenuStrip = contextMenu;
+            
                ni.Icon = new System.Drawing.Icon(SystemIcons.Application, 40, 40);
                ni.Visible = false;
 

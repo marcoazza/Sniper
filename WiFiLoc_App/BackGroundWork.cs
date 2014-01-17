@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WiFiLoc_Service;
+using WiFiLoc_App;
 using NativeWifi;
 using System.Threading;
 using System.Diagnostics;
@@ -141,7 +141,7 @@ namespace WiFiLoc_App
             System.Diagnostics.ProcessStartInfo startInfo = new System.Diagnostics.ProcessStartInfo();
             startInfo.WindowStyle = System.Diagnostics.ProcessWindowStyle.Hidden;
             startInfo.FileName = "cmd.exe ";
-            startInfo.Arguments = "/C \"" + action + "\"";
+            startInfo.Arguments = "/C " + action;
             process.StartInfo = startInfo;
             try
             {

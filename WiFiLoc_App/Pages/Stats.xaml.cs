@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Windows.Controls.DataVisualization.Charting;
-using WiFiLoc_Service;
+using WiFiLoc_App;
 using System.Collections;
 
 namespace WiFiLoc_App.Pages

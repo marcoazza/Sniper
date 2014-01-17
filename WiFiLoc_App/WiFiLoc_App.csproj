@@ -104,24 +104,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="..\WiFiLoc_Service\DBAccess.cs">
-      <Link>DBAccess.cs</Link>
-    </Compile>
-    <Compile Include="..\WiFiLoc_Service\DBconnection.cs">
-      <Link>DBconnection.cs</Link>
-    </Compile>
-    <Compile Include="..\WiFiLoc_Service\Locator.cs">
-      <Link>Locator.cs</Link>
-    </Compile>
-    <Compile Include="..\WiFiLoc_Service\Luogo.cs">
-      <Link>Luogo.cs</Link>
-    </Compile>
-    <Compile Include="..\WiFiLoc_Service\Network.cs">
-      <Link>Network.cs</Link>
-    </Compile>
-    <Compile Include="..\WiFiLoc_Service\NetworkList.cs">
-      <Link>NetworkList.cs</Link>
-    </Compile>
     <Compile Include="ActionList.cs" />
     <Compile Include="BackGroundWork.cs" />
     <Compile Include="ConnectionHub.cs" />
@@ -132,34 +114,20 @@
       <DependentUpon>LocalAppDBDataSet.xsd</DependentUpon>
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="Locator.cs" />
     <Compile Include="Logger.cs" />
+    <Compile Include="Luogo.cs" />
     <Compile Include="Menu\MainMenu.xaml.cs">
       <DependentUpon>MainMenu.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Menu\menuClear.xaml.cs">
-      <DependentUpon>menuClear.xaml</DependentUpon>
-    </Compile>
+    <Compile Include="Network.cs" />
+    <Compile Include="NetworkList.cs" />
     <Compile Include="Pages\AddLuogo.xaml.cs">
       <DependentUpon>AddLuogo.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\AppList.xaml.cs">
-      <DependentUpon>AppList.xaml</DependentUpon>
-    </Compile>
     <Compile Include="ActionManager.cs" />
-    <Compile Include="Pages\MenuLuogo.xaml.cs">
-      <DependentUpon>MenuLuogo.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Menu\AggiungiLuogo.xaml.cs">
-      <DependentUpon>AggiungiLuogo.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\DelLuogo.xaml.cs">
-      <DependentUpon>DelLuogo.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Pages\Home.xaml.cs">
       <DependentUpon>Home.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="Pages\ModLuogo.xaml.cs">
-      <DependentUpon>ModLuogo.xaml</DependentUpon>
     </Compile>
     <Compile Include="LocalAppDBDataSet.Designer.cs">
       <AutoGen>True</AutoGen>
@@ -172,9 +140,6 @@
     <Compile Include="Pages\Stats.xaml.cs">
       <DependentUpon>Stats.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Pages\WelcomeLuogo.xaml.cs">
-      <DependentUpon>WelcomeLuogo.xaml</DependentUpon>
-    </Compile>
     <Compile Include="WlanApi.cs" />
     <Page Include="CustomActionWindow.xaml">
       <SubType>Designer</SubType>
@@ -184,15 +149,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Menu\menuClear.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Pages\AddLuogo.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\AppList.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -209,23 +166,7 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="Pages\MenuLuogo.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Menu\AggiungiLuogo.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\DelLuogo.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="Pages\Home.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\ModLuogo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -234,10 +175,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\Stats.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Pages\WelcomeLuogo.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -312,6 +249,7 @@
     <Content Include="dbLocale.sdf">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Resource Include="images\mirino_icon.ico" />
     <Resource Include="Resources\Entypo-license.txt" />
     <Resource Include="images\mirino.png" />
     <Resource Include="images\action_icon.png" />

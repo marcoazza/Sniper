@@ -9,7 +9,7 @@
       KeepAlive="True">
 
     <Grid>
-        <Label x:Name="currentPlaceLabel" Content="Label" HorizontalAlignment="Left" Margin="34,24,0,0" VerticalAlignment="Top" Height="59" Width="372" FontSize="40" />
+        <Label x:Name="currentPlaceLabel" Content="Label" HorizontalAlignment="Left" Margin="34,24,0,0" VerticalAlignment="Top" Height="59" Width="727" FontSize="40" />
         <ListBox x:Name="NetworkList" HorizontalAlignment="Left" Height="113" Margin="49,140,0,0" VerticalAlignment="Top" Width="357" BorderThickness="1"/>
         <Label Content="Networks" HorizontalAlignment="Left" Margin="49,109,0,0" VerticalAlignment="Top" Width="68"/>
 

@@ -34,6 +34,8 @@ namespace WiFiLoc_App
 
         public static itemApp getAssociatedItem(string path) {
             string envPath = Environment.CurrentDirectory.ToString();
+            path = path.Remove(0, 2).Remove(path.Length - 3);
+            
             string n = System.IO.Path.GetFileNameWithoutExtension(path);
             String ico = envPath + "\\images\\" + n + ".ico";
             if(!System.IO.File.Exists(ico)){
@@ -42,6 +44,13 @@ namespace WiFiLoc_App
             return new itemApp {applicazione=path,icon=ico, name=n }; 
         }
 
+        public static itemApp getFirewallItem(string path, string name)
+        {
+
+            string n = name;
+            String ico = "\\images\\action_icon.png";
+            return new itemApp { applicazione = path, icon = ico, name = n };
+        }
 
         public static void startProcess(string stringProc) {
             Process p = new Process();
@@ -82,7 +91,7 @@ namespace WiFiLoc_App
                             Bitmap b = ico.ToBitmap();
                             object[] myArray = new object[4];
                             myArray[0] = l;
-                            myArray[1] = sk.GetValue("");
+                            myArray[1] = "\"" + sk.GetValue("") + "\"";
                             string completePath = rp + "\\images\\" + System.IO.Path.GetFileNameWithoutExtension((string)sk.GetValue("")) + ".ico";
 
                             if(!System.IO.File.Exists(completePath)){
@@ -142,6 +151,13 @@ namespace WiFiLoc_App
                apps.Add(new ActionList.Action(i.applicazione) );
             }
             return apps;
+        }
+
+        public static Hashtable getFirewallRules() {
+            Hashtable firewallRules = new Hashtable();
+            firewallRules.Add("Enable firewall", "netsh advfirewall set allprofiles state on");
+            firewallRules.Add("Disable firewall", "netsh advfirewall set allprofiles state off");
+            return firewallRules;
         }
     }
 }
