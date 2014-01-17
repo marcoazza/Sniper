@@ -32,10 +32,11 @@ namespace WiFiLoc_App
 
         public static void start()
         {
-            
+            WlanClient wc = WlanClient.getInstance();
             Luogo prevPlace = null;
             Luogo currentPlace = null;
             Luogo placeToLocate = null;
+            Luogo locatedPlace = null;
 
             pc += launchActions;
             poc += updateStats;
@@ -49,8 +50,10 @@ namespace WiFiLoc_App
                 placeToLocate = new Luogo();
                 placeToLocate.saveNextList();
 
+                if (os != null)
+                    os(placeToLocate.NetwList);
 
-                WlanClient wc = WlanClient.getInstance();
+                
                 try
                 {
                     currentPlace = Locator.locate();
@@ -59,52 +62,52 @@ namespace WiFiLoc_App
                 {
                     currentPlace = null;
                 }
-                if (os != null)
-                    os(placeToLocate.NetwList);
-                if (inPlace == 3)
-                {
-                    //call delegate
 
-                    pc(currentPlace);
-                }
 
-                //update Stats
-                if (inPlace % 10 == 0 && inPlace != 10 && inPlace != 0)
+                if (locatedPlace == null)
                 {
-                    poc(currentPlace);
-                }
-                //update Stats
-                if (inPlace % 10 == 0 && inPlace != 0)
-                {
-                    polc(currentPlace);
-                }
-                //count times which consecutive find same place
-                if (currentPlace != null)
-                {
-                    if (currentPlace.Equals(prevPlace))
+                    if (currentPlace != null)
                     {
-                        inPlace++;
+                        if (currentPlace.Equals(prevPlace))
+                        {
+                            inPlace++;
+                        }
+                        if (inPlace == 3)
+                        {
+                            locatedPlace = currentPlace;
+                            pc(currentPlace);
+                        }
+                    }
+                    prevPlace = currentPlace;
+                }
+                else {
+                    if (locatedPlace.Equals(currentPlace))
+                    {
                         notInPlace = 0;
+                        inPlace++;
+                        //update Stats
+                        if (inPlace % 10 == 0 && inPlace != 10 && inPlace != 0)
+                        {
+                            poc(currentPlace);
+                        }
+                        //update Stats
+                        if (inPlace % 30 == 0 && inPlace != 0)
+                        {
+                            polc(currentPlace);
+                        }
                     }
-                    else
-                    {
-                       notInPlace++;
+                    else {
+                        notInPlace++;
+                        if (notInPlace == 3) {
+                            locatedPlace = null;
+                            inPlace = 0;
+                            notInPlace = 0;
+                        }
                     }
-                }
-                else
-                {
-                    notInPlace++;
+
+                    prevPlace = currentPlace;
                 }
 
-                if (notInPlace == 3 && inPlace > 3 ) {
-                    notInPlace = 0;
-                    inPlace = 1;
-                    prevPlace = currentPlace;
-                }
-                if (inPlace < 3) {
-                    prevPlace = currentPlace;
-                    notInPlace = 0;
-                }
 
 
                 if (wc.Interfaces.Length != 0)

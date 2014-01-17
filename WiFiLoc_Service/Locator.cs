@@ -112,7 +112,8 @@ namespace WiFiLoc_Service
         }
 
         /// <summary>
-        /// 
+        /// Calculate a confidence based on power signal difference between the APs for the saved place and the current one
+        /// The signal strength is trasformed in a distance to have a more accurate value.
         /// </summary>
         /// <param name="placeToBeLocated"></param>
         /// <param name="savedPlaces"></param>
@@ -138,7 +139,12 @@ namespace WiFiLoc_Service
 
             return 1 - distance;
         }
-
+        /// <summary>
+        /// Calculate a confidence based on the difference between the number of APs that were saved for that place and the place to be located
+        /// </summary>
+        /// <param name="placeToBeLocated"></param>
+        /// <param name="savedPlace"></param>
+        /// <returns></returns>
         private static double getAPMissingConfidence(Luogo placeToBeLocated, Luogo savedPlace)
         {
             ArrayList commonAPs = getCommonAPs(placeToBeLocated, savedPlace);
@@ -148,6 +154,13 @@ namespace WiFiLoc_Service
                 return (savedPlaceAPNum - (savedPlaceAPNum - commonAPNum)) / savedPlaceAPNum;
             return 0;
         }
+
+        /// <summary>
+        /// Calculate a confidence based on the difference between the number of APs are detected in the place to be located and the ones in a saved place.
+        /// </summary>
+        /// <param name="placeToBeLocated"></param>
+        /// <param name="savedPlace"></param>
+        /// <returns></returns>
 
         private static double getAPNewConfidence(Luogo placeToBeLocated, Luogo savedPlace)
         {
@@ -173,7 +186,7 @@ namespace WiFiLoc_Service
         }
 
         /// <summary>
-        /// Find common APs in different places
+        /// Find common APs between the place to be located and the saved one
         /// </summary>
         /// <param name="l1"></param>
         /// <param name="l2"></param>

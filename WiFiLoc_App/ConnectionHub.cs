@@ -58,7 +58,7 @@ namespace WiFiLoc_App
                     }
                     if (connection == null)
                     {
-                        connection = new SqlCeConnection("datasource=" + "c:\\Users\\SEVEN\\Desktop\\Sniper\\WiFiLoc_App\\bin\\Debug\\dbLocale.sdf");
+                        connection = new SqlCeConnection("datasource=" + "c:\\Users\\Mattia\\Documents\\GitHub\\Sniper\\WiFiLoc_App\\bin\\Debug\\dbLocale.sdf");
                         //connection.Connection.Open();
                         if (threadConnectionMap.ContainsKey(threadId))
                             threadConnectionMap[threadId] = connection;
